@@ -4,10 +4,14 @@
 #  All services declared here. flam reads this.
 # ─────────────────────────────────────────────
 
+# ─────────────────────────────────────────────
+# FlamOS Service Registry
+# ─────────────────────────────────────────────
+
 defaults:
-  watchdog_interval: 10        # seconds between health checks
-  restart_limit: 5             # max restarts before marking "degraded"
-  restart_cooldown: 30         # seconds before retry after failure
+  watchdog_interval: 10
+  restart_limit: 5
+  restart_cooldown: 30
   state_file: ./state/workspace.json
   log_dir: ./logs
 
@@ -23,29 +27,87 @@ services:
     tags: [infra]
     log_file: /var/log/nginx/error.log
 
-  cloudflare:
-    session: FlamCloudflaredWeb
+  # ─────────────────────────────
+  # ROOT SITE
+  # ─────────────────────────────
+
+  root-web:
+    session: FlamRootWeb
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/root-web
+    health_check: "curl -sf http://localhost:5100 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [frontend]
+    port: 5100
+
+  cf-root:
+    session: FlamTunnelRoot
     command: >
       cloudflared
-      --pidfile /var/run/cloudflared-web.pid
-      --autoupdate-freq 24h0m0s
       tunnel run
-      --token ${WEB_TUNNEL_TOKEN}
+      --token ${ROOT_TUNNEL_TOKEN}
     dir: /
-    health_check: "pgrep -x cloudflared"
+    health_check: "pgrep -fa ROOT_TUNNEL_TOKEN"
     color: orange
     critical: true
-    tags: [infra]
+    tags: [tunnel]
 
-  weather:
-    session: FlamWebserver
+  # ─────────────────────────────
+  # AUTH
+  # ─────────────────────────────
+
+  auth:
+    session: FlamAuth
     command: "pnpm run dev"
-    dir: /sec/root/FLTM/SHFTCCONK
-    health_check: "curl -sf http://localhost:5173 -o /dev/null"
-    color: blue
+    dir: /sec/root/FLTM/auth
+    health_check: "curl -sf http://localhost:5500 -o /dev/null"
+    color: magenta
+    critical: true
+    tags: [backend, auth]
+    port: 5500
+
+  cf-auth:
+    session: FlamTunnelAuth
+    command: >
+      cloudflared
+      tunnel run
+      --token ${AUTH_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa AUTH_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # CHAT
+  # ─────────────────────────────
+
+  chat:
+    session: FlamChat
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/chat
+    health_check: "curl -sf http://localhost:5200 -o /dev/null"
+    color: cyan
     critical: false
-    tags: [app, frontend]
-    port: 5173
+    tags: [app, realtime]
+    port: 5200
+
+  cf-chat:
+    session: FlamTunnelChat
+    command: >
+      cloudflared
+      tunnel run
+      --token ${CHAT_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa CHAT_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # MAPS
+  # ─────────────────────────────
 
   maps:
     session: FlamMaps
@@ -54,17 +116,95 @@ services:
     health_check: "curl -sf http://localhost:5174 -o /dev/null"
     color: cyan
     critical: false
-    tags: [app, frontend]
+    tags: [maps, frontend]
     port: 5174
 
-  # ── Add more services below ──
-  # example:
-  #   auth:
-  #     session: FlamAuth
-  #     command: "node server.js"
-  #     dir: /sec/root/FLTM/auth
-  #     health_check: "curl -sf http://localhost:4000/health -o /dev/null"
-  #     color: magenta
-  #     critical: true
-  #     tags: [app, backend]
-  #     port: 4000
+  cf-maps:
+    session: FlamTunnelMaps
+    command: >
+      cloudflared
+      tunnel run
+      --token ${MAPS_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa MAPS_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # GAMES
+  # ─────────────────────────────
+
+  games:
+    session: FlamGames
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/games
+    health_check: "curl -sf http://localhost:5300 -o /dev/null"
+    color: yellow
+    critical: false
+    tags: [games]
+    port: 5300
+
+  cf-games:
+    session: FlamTunnelGames
+    command: >
+      cloudflared
+      tunnel run
+      --token ${GAMES_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa GAMES_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # HYPNTYZ
+  # ─────────────────────────────
+
+  hypntyz:
+    session: FlamHypntyz
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/hypntyz
+    health_check: "curl -sf http://localhost:5400 -o /dev/null"
+    color: red
+    critical: true
+    tags: [ai, projection]
+    port: 5400
+
+  cf-hypntyz:
+    session: FlamTunnelHypntyz
+    command: >
+      cloudflared
+      tunnel run
+      --token ${HYPNTYZ_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa HYPNTYZ_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # INGESTION
+  # ─────────────────────────────
+
+  ingestion:
+    session: FlamIngestion
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/ingestion
+    health_check: "curl -sf http://localhost:5600 -o /dev/null"
+    color: white
+    critical: true
+    tags: [backend, ingestion]
+    port: 5600
+
+  cf-ingestion:
+    session: FlamTunnelIngestion
+    command: >
+      cloudflared
+      tunnel run
+      --token ${INGESTION_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa INGESTION_TUNNEL_TOKEN"
+    color: orange
+    critical: true
+    tags: [tunnel]
