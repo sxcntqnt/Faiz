@@ -1,0 +1,8 @@
+2026-05-14 18:48:06,811 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-14 18:48:06,859 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-14 18:48:06,874 [flam.orchestrator] INFO — [cloudflare] starting → tmux session 'FlamCloudflaredWeb'
+2026-05-14 18:48:06,916 [flam.orchestrator] INFO — [cloudflare] ✓ started
+2026-05-14 18:48:06,931 [flam.orchestrator] INFO — [weather] starting → tmux session 'FlamWebserver'
+2026-05-14 18:48:06,978 [flam.orchestrator] INFO — [weather] ✓ started
+2026-05-14 18:48:06,991 [flam.orchestrator] INFO — [maps] starting → tmux session 'FlamMaps'
+2026-05-14 18:48:07,037 [flam.orchestrator] INFO — [maps] ✓ started

@@ -1,0 +1,70 @@
+
+# ─────────────────────────────────────────────
+#  FlamOS Service Registry
+#  All services declared here. flam reads this.
+# ─────────────────────────────────────────────
+
+defaults:
+  watchdog_interval: 10        # seconds between health checks
+  restart_limit: 5             # max restarts before marking "degraded"
+  restart_cooldown: 30         # seconds before retry after failure
+  state_file: ./state/workspace.json
+  log_dir: ./logs
+
+services:
+
+  nginx:
+    session: FlamNginx
+    command: "nginx -g 'daemon off;'"
+    dir: /
+    health_check: "service nginx status"
+    color: green
+    critical: true
+    tags: [infra]
+    log_file: /var/log/nginx/error.log
+
+  cloudflare:
+    session: FlamCloudflaredWeb
+    command: >
+      cloudflared
+      --pidfile /var/run/cloudflared-web.pid
+      --autoupdate-freq 24h0m0s
+      tunnel run
+      --token ${WEB_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -x cloudflared"
+    color: orange
+    critical: true
+    tags: [infra]
+
+  weather:
+    session: FlamWebserver
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "curl -sf http://localhost:5173 -o /dev/null"
+    color: blue
+    critical: false
+    tags: [app, frontend]
+    port: 5173
+
+  maps:
+    session: FlamMaps
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/maps
+    health_check: "curl -sf http://localhost:5174 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [app, frontend]
+    port: 5174
+
+  # ── Add more services below ──
+  # example:
+  #   auth:
+  #     session: FlamAuth
+  #     command: "node server.js"
+  #     dir: /sec/root/FLTM/auth
+  #     health_check: "curl -sf http://localhost:4000/health -o /dev/null"
+  #     color: magenta
+  #     critical: true
+  #     tags: [app, backend]
+  #     port: 4000
