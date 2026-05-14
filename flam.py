@@ -28,7 +28,7 @@ import sys
 from pathlib import Path
 
 # ── Path setup ────────────────────────────────────────────────────────────────
-FLAM_ROOT = Path(__file__).parent.resolve()
+FLAM_ROOT = Path(os.getenv("FLAM_ROOT", Path(__file__).resolve().parent)).resolve()
 sys.path.insert(0, str(FLAM_ROOT))
 
 from core.registry import Registry
