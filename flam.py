@@ -36,6 +36,7 @@ from core.orchestrator import Orchestrator, Status
 from core.watchdog import Watchdog
 from core.resurrection import Resurrection
 from core import tmux
+from core.utils import _status_icon ,_fmt_time
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 LOG_DIR = FLAM_ROOT / "logs"
@@ -86,6 +87,38 @@ def cmd_restart(args, registry, orchestrator, **_):
 
 
 def cmd_status(args, registry, orchestrator, **_):
+    result = orchestrator.status(args.service)
+
+    # ── JSON mode (machine layer) ─────────────────────────────
+    if getattr(args, "json", False):
+        import json
+        print(json.dumps({k: str(v) for k, v in result.items()}, indent=2))
+        return
+
+    # ── single service view (alive tree node) ─────────────────
+    if args.service:
+        name, state = next(iter(result.items()))
+        svc = registry.services[name]
+
+        status = state.status if hasattr(state, "status") else state
+        icon = _status_icon(status)
+
+        print(f"""
+⚡ FlamOS · Live Node
+
+{icon} {name}
+├─ status      {status.value if hasattr(status, "value") else status}
+├─ session     {svc.session}
+├─ port        {svc.port or "—"}
+├─ critical    {"YES" if svc.critical else "no"}
+├─ tags        {", ".join(svc.tags) if svc.tags else "—"}
+├─ restarts    {state.restart_count if hasattr(state, "restart_count") else 0}
+├─ last_seen   {_fmt_time(getattr(state, "last_seen", None))}
+└─ error       {getattr(state, "last_error", "") or "—"}
+""".strip())
+        return
+
+    # ── full system view (delegated live dashboard) ───────────
     from core.dashboard import show_once
     show_once(orchestrator, registry)
 
@@ -211,7 +244,14 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("service", nargs="?", help="Service name (omit for all)")
 
     # status / dash
-    sub.add_parser("status", help="Show service status snapshot")
+    p_status = sub.add_parser(
+        "status",
+        aliases=["stat"],
+        help="Show service status snapshot"
+    )
+    p_status.add_argument("service", nargs="?", help="Service name (optional)")
+    p_status.add_argument("--json", action="store_true", help="Raw output")
+
     p_dash = sub.add_parser("dash", help="Live refreshing dashboard")
     p_dash.add_argument("--refresh", type=float, default=3.0, help="Refresh interval (seconds)")
 
@@ -240,6 +280,7 @@ COMMAND_MAP = {
     "down":     cmd_down,
     "restart":  cmd_restart,
     "status":   cmd_status,
+    "stat":     cmd_status,
     "dash":     cmd_dash,
     "jump":     cmd_jump,
     "save":     cmd_save,
