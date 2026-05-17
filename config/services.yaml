@@ -33,8 +33,8 @@ services:
   root-web:
     session: FlamRootWeb
     command: "pnpm run dev"
-    dir: /sec/root/FLTM/root-web
-    health_check: "curl -sf http://localhost:5100 -o /dev/null"
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "curl -sf http://localhost:5173 -o /dev/null"
     color: blue
     critical: true
     tags: [frontend]

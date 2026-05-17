@@ -51,3 +51,194 @@
 2026-05-15 02:54:18,655 [flam.orchestrator] INFO — [pangea-superbase] already stopped
 2026-05-15 02:54:18,660 [flam.orchestrator] INFO — [pangea-traffic] already stopped
 2026-05-15 02:54:18,665 [flam.orchestrator] INFO — [pangea-user-management] already stopped
+2026-05-17 01:22:11,773 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-17 01:22:11,780 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-17 01:31:04,425 [flam.orchestrator] INFO — [nginx] stopping session 'FlamNginx'
+2026-05-17 01:31:04,436 [flam.orchestrator] INFO — [nginx] ✓ stopped
+2026-05-17 01:31:05,444 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-17 01:31:05,449 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-17 01:31:05,455 [flam.orchestrator] INFO — [root-web] already stopped
+2026-05-17 01:31:06,460 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-17 01:31:06,467 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-17 01:31:06,472 [flam.orchestrator] INFO — [cf-root] already stopped
+2026-05-17 01:31:07,478 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-17 01:31:07,483 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-17 01:31:07,488 [flam.orchestrator] INFO — [auth] already stopped
+2026-05-17 01:31:08,493 [flam.orchestrator] INFO — [auth] starting → tmux session 'FlamAuth'
+2026-05-17 01:31:08,501 [flam.orchestrator] INFO — [auth] ✓ started
+2026-05-17 01:31:08,507 [flam.orchestrator] INFO — [cf-auth] already stopped
+2026-05-17 01:31:09,513 [flam.orchestrator] INFO — [cf-auth] starting → tmux session 'FlamTunnelAuth'
+2026-05-17 01:31:09,519 [flam.orchestrator] INFO — [cf-auth] ✓ started
+2026-05-17 01:31:09,524 [flam.orchestrator] INFO — [chat] already stopped
+2026-05-17 01:31:10,540 [flam.orchestrator] INFO — [chat] starting → tmux session 'FlamChat'
+2026-05-17 01:31:10,547 [flam.orchestrator] INFO — [chat] ✓ started
+2026-05-17 01:31:10,552 [flam.orchestrator] INFO — [cf-chat] already stopped
+2026-05-17 01:31:11,558 [flam.orchestrator] INFO — [cf-chat] starting → tmux session 'FlamTunnelChat'
+2026-05-17 01:31:11,563 [flam.orchestrator] INFO — [cf-chat] ✓ started
+2026-05-17 01:31:11,567 [flam.orchestrator] INFO — [maps] already stopped
+2026-05-17 01:31:12,573 [flam.orchestrator] INFO — [maps] starting → tmux session 'FlamMaps'
+2026-05-17 01:31:12,578 [flam.orchestrator] INFO — [maps] ✓ started
+2026-05-17 01:31:12,584 [flam.orchestrator] INFO — [cf-maps] already stopped
+2026-05-17 01:31:13,590 [flam.orchestrator] INFO — [cf-maps] starting → tmux session 'FlamTunnelMaps'
+2026-05-17 01:31:13,595 [flam.orchestrator] INFO — [cf-maps] ✓ started
+2026-05-17 01:31:13,602 [flam.orchestrator] INFO — [games] already stopped
+2026-05-17 01:31:14,608 [flam.orchestrator] INFO — [games] starting → tmux session 'FlamGames'
+2026-05-17 01:31:14,613 [flam.orchestrator] INFO — [games] ✓ started
+2026-05-17 01:31:14,618 [flam.orchestrator] INFO — [cf-games] already stopped
+2026-05-17 01:31:15,624 [flam.orchestrator] INFO — [cf-games] starting → tmux session 'FlamTunnelGames'
+2026-05-17 01:31:15,641 [flam.orchestrator] INFO — [cf-games] ✓ started
+2026-05-17 01:31:15,646 [flam.orchestrator] INFO — [hypntyz] already stopped
+2026-05-17 01:31:16,652 [flam.orchestrator] INFO — [hypntyz] starting → tmux session 'FlamHypntyz'
+2026-05-17 01:31:16,658 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-05-17 01:31:16,663 [flam.orchestrator] INFO — [cf-hypntyz] already stopped
+2026-05-17 01:31:17,669 [flam.orchestrator] INFO — [cf-hypntyz] starting → tmux session 'FlamTunnelHypntyz'
+2026-05-17 01:31:17,674 [flam.orchestrator] INFO — [cf-hypntyz] ✓ started
+2026-05-17 01:31:17,679 [flam.orchestrator] INFO — [ingestion] already stopped
+2026-05-17 01:31:18,685 [flam.orchestrator] INFO — [ingestion] starting → tmux session 'FlamIngestion'
+2026-05-17 01:31:18,690 [flam.orchestrator] INFO — [ingestion] ✓ started
+2026-05-17 01:31:18,695 [flam.orchestrator] INFO — [cf-ingestion] already stopped
+2026-05-17 01:31:19,700 [flam.orchestrator] INFO — [cf-ingestion] starting → tmux session 'FlamTunnelIngestion'
+2026-05-17 01:31:19,706 [flam.orchestrator] INFO — [cf-ingestion] ✓ started
+2026-05-17 01:31:19,711 [flam.orchestrator] INFO — [crm-frontend] already stopped
+2026-05-17 01:31:20,716 [flam.orchestrator] INFO — [crm-frontend] starting → tmux session 'FlamCRMFrontend'
+2026-05-17 01:31:20,723 [flam.orchestrator] INFO — [crm-frontend] ✓ started
+2026-05-17 01:31:20,729 [flam.orchestrator] INFO — [crm-backend] already stopped
+2026-05-17 01:31:21,743 [flam.orchestrator] INFO — [crm-backend] starting → tmux session 'FlamCRMBackend'
+2026-05-17 01:31:21,747 [flam.orchestrator] INFO — [crm-backend] ✓ started
+2026-05-17 01:31:21,753 [flam.orchestrator] INFO — [crm-celery] already stopped
+2026-05-17 01:31:22,759 [flam.orchestrator] INFO — [crm-celery] starting → tmux session 'FlamCRMCelery'
+2026-05-17 01:31:22,765 [flam.orchestrator] INFO — [crm-celery] ✓ started
+2026-05-17 01:31:22,771 [flam.orchestrator] INFO — [crm-redis] already stopped
+2026-05-17 01:31:23,777 [flam.orchestrator] INFO — [crm-redis] starting → tmux session 'FlamCRMRedis'
+2026-05-17 01:31:23,782 [flam.orchestrator] INFO — [crm-redis] ✓ started
+2026-05-17 01:31:23,787 [flam.orchestrator] INFO — [cf-crm] already stopped
+2026-05-17 01:31:24,793 [flam.orchestrator] INFO — [cf-crm] starting → tmux session 'FlamTunnelCRM'
+2026-05-17 01:31:24,799 [flam.orchestrator] INFO — [cf-crm] ✓ started
+2026-05-17 01:31:24,804 [flam.orchestrator] INFO — [pangea-analytics] already stopped
+2026-05-17 01:31:25,810 [flam.orchestrator] INFO — [pangea-analytics] starting → tmux session 'PangeaAnalytics'
+2026-05-17 01:31:25,816 [flam.orchestrator] INFO — [pangea-analytics] ✓ started
+2026-05-17 01:31:25,821 [flam.orchestrator] INFO — [pangea-api-gateway] already stopped
+2026-05-17 01:31:26,836 [flam.orchestrator] INFO — [pangea-api-gateway] starting → tmux session 'PangeaApiGateway'
+2026-05-17 01:31:26,842 [flam.orchestrator] INFO — [pangea-api-gateway] ✓ started
+2026-05-17 01:31:26,847 [flam.orchestrator] INFO — [pangea-auth] already stopped
+2026-05-17 01:31:27,853 [flam.orchestrator] INFO — [pangea-auth] starting → tmux session 'PangeaAuth'
+2026-05-17 01:31:27,859 [flam.orchestrator] INFO — [pangea-auth] ✓ started
+2026-05-17 01:31:27,865 [flam.orchestrator] INFO — [pangea-blockchain] already stopped
+2026-05-17 01:31:28,870 [flam.orchestrator] INFO — [pangea-blockchain] starting → tmux session 'PangeaBlockchain'
+2026-05-17 01:31:28,874 [flam.orchestrator] INFO — [pangea-blockchain] ✓ started
+2026-05-17 01:31:28,880 [flam.orchestrator] INFO — [pangea-core-comm] already stopped
+2026-05-17 01:31:29,886 [flam.orchestrator] INFO — [pangea-core-comm] starting → tmux session 'PangeaCoreComm'
+2026-05-17 01:31:29,892 [flam.orchestrator] INFO — [pangea-core-comm] ✓ started
+2026-05-17 01:31:29,897 [flam.orchestrator] INFO — [pangea-customer] already stopped
+2026-05-17 01:31:30,902 [flam.orchestrator] INFO — [pangea-customer] starting → tmux session 'PangeaCustomer'
+2026-05-17 01:31:30,907 [flam.orchestrator] INFO — [pangea-customer] ✓ started
+2026-05-17 01:31:30,913 [flam.orchestrator] INFO — [pangea-customs] already stopped
+2026-05-17 01:31:31,919 [flam.orchestrator] INFO — [pangea-customs] starting → tmux session 'PangeaCustoms'
+2026-05-17 01:31:31,925 [flam.orchestrator] INFO — [pangea-customs] ✓ started
+2026-05-17 01:31:31,940 [flam.orchestrator] INFO — [pangea-driver-location] already stopped
+2026-05-17 01:31:32,946 [flam.orchestrator] INFO — [pangea-driver-location] starting → tmux session 'PangeaDriverLocation'
+2026-05-17 01:31:32,951 [flam.orchestrator] INFO — [pangea-driver-location] ✓ started
+2026-05-17 01:31:32,955 [flam.orchestrator] INFO — [pangea-eta] already stopped
+2026-05-17 01:31:33,961 [flam.orchestrator] INFO — [pangea-eta] starting → tmux session 'PangeaEta'
+2026-05-17 01:31:33,967 [flam.orchestrator] INFO — [pangea-eta] ✓ started
+2026-05-17 01:31:33,974 [flam.orchestrator] INFO — [pangea-event-bus] already stopped
+2026-05-17 01:31:34,978 [flam.orchestrator] INFO — [pangea-event-bus] starting → tmux session 'PangeaEventBus'
+2026-05-17 01:31:34,983 [flam.orchestrator] INFO — [pangea-event-bus] ✓ started
+2026-05-17 01:31:34,988 [flam.orchestrator] INFO — [pangea-frontend] already stopped
+2026-05-17 01:31:35,993 [flam.orchestrator] INFO — [pangea-frontend] starting → tmux session 'PangeaFrontend'
+2026-05-17 01:31:35,999 [flam.orchestrator] INFO — [pangea-frontend] ✓ started
+2026-05-17 01:31:36,004 [flam.orchestrator] INFO — [pangea-inventory] already stopped
+2026-05-17 01:31:37,011 [flam.orchestrator] INFO — [pangea-inventory] starting → tmux session 'PangeaInventory'
+2026-05-17 01:31:37,017 [flam.orchestrator] INFO — [pangea-inventory] ✓ started
+2026-05-17 01:31:37,022 [flam.orchestrator] INFO — [pangea-map] already stopped
+2026-05-17 01:31:38,037 [flam.orchestrator] INFO — [pangea-map] starting → tmux session 'PangeaMap'
+2026-05-17 01:31:38,043 [flam.orchestrator] INFO — [pangea-map] ✓ started
+2026-05-17 01:31:38,049 [flam.orchestrator] INFO — [pangea-motoculture] already stopped
+2026-05-17 01:31:39,055 [flam.orchestrator] INFO — [pangea-motoculture] starting → tmux session 'PangeaMotoculture'
+2026-05-17 01:31:39,060 [flam.orchestrator] INFO — [pangea-motoculture] ✓ started
+2026-05-17 01:31:39,066 [flam.orchestrator] INFO — [pangea-notification] already stopped
+2026-05-17 01:31:40,071 [flam.orchestrator] INFO — [pangea-notification] starting → tmux session 'PangeaNotification'
+2026-05-17 01:31:40,080 [flam.orchestrator] INFO — [pangea-notification] ✓ started
+2026-05-17 01:31:40,086 [flam.orchestrator] INFO — [pangea-orch] already stopped
+2026-05-17 01:31:41,091 [flam.orchestrator] INFO — [pangea-orch] starting → tmux session 'PangeaOrch'
+2026-05-17 01:31:41,096 [flam.orchestrator] INFO — [pangea-orch] ✓ started
+2026-05-17 01:31:41,101 [flam.orchestrator] INFO — [pangea-order] already stopped
+2026-05-17 01:31:42,107 [flam.orchestrator] INFO — [pangea-order] starting → tmux session 'PangeaOrder'
+2026-05-17 01:31:42,112 [flam.orchestrator] INFO — [pangea-order] ✓ started
+2026-05-17 01:31:42,116 [flam.orchestrator] INFO — [pangea-payment] already stopped
+2026-05-17 01:31:43,122 [flam.orchestrator] INFO — [pangea-payment] starting → tmux session 'PangeaPayment'
+2026-05-17 01:31:43,129 [flam.orchestrator] INFO — [pangea-payment] ✓ started
+2026-05-17 01:31:43,134 [flam.orchestrator] INFO — [pangea-pricing] already stopped
+2026-05-17 01:31:44,143 [flam.orchestrator] INFO — [pangea-pricing] starting → tmux session 'PangeaPricing'
+2026-05-17 01:31:44,148 [flam.orchestrator] INFO — [pangea-pricing] ✓ started
+2026-05-17 01:31:44,154 [flam.orchestrator] INFO — [pangea-product] already stopped
+2026-05-17 01:31:45,161 [flam.orchestrator] INFO — [pangea-product] starting → tmux session 'PangeaProduct'
+2026-05-17 01:31:45,166 [flam.orchestrator] INFO — [pangea-product] ✓ started
+2026-05-17 01:31:45,171 [flam.orchestrator] INFO — [pangea-ride-matching] already stopped
+2026-05-17 01:31:46,177 [flam.orchestrator] INFO — [pangea-ride-matching] starting → tmux session 'PangeaRideMatching'
+2026-05-17 01:31:46,183 [flam.orchestrator] INFO — [pangea-ride-matching] ✓ started
+2026-05-17 01:31:46,188 [flam.orchestrator] INFO — [pangea-routing] already stopped
+2026-05-17 01:31:47,193 [flam.orchestrator] INFO — [pangea-routing] starting → tmux session 'PangeaRouting'
+2026-05-17 01:31:47,200 [flam.orchestrator] INFO — [pangea-routing] ✓ started
+2026-05-17 01:31:47,206 [flam.orchestrator] INFO — [pangea-superbase] already stopped
+2026-05-17 01:31:48,211 [flam.orchestrator] INFO — [pangea-superbase] starting → tmux session 'PangeaSuperbase'
+2026-05-17 01:31:48,219 [flam.orchestrator] INFO — [pangea-superbase] ✓ started
+2026-05-17 01:31:48,225 [flam.orchestrator] INFO — [pangea-traffic] already stopped
+2026-05-17 01:31:49,232 [flam.orchestrator] INFO — [pangea-traffic] starting → tmux session 'PangeaTraffic'
+2026-05-17 01:31:49,237 [flam.orchestrator] INFO — [pangea-traffic] ✓ started
+2026-05-17 01:31:49,242 [flam.orchestrator] INFO — [pangea-user-management] already stopped
+2026-05-17 01:31:50,247 [flam.orchestrator] INFO — [pangea-user-management] starting → tmux session 'PangeaUserManagement'
+2026-05-17 01:31:50,255 [flam.orchestrator] INFO — [pangea-user-management] ✓ started
+2026-05-17 22:32:04,393 [flam.orchestrator] INFO — [nginx] already stopped
+2026-05-17 22:32:04,399 [flam.orchestrator] INFO — [root-web] already stopped
+2026-05-17 22:32:04,403 [flam.orchestrator] INFO — [cf-root] already stopped
+2026-05-17 22:32:04,408 [flam.orchestrator] INFO — [auth] already stopped
+2026-05-17 22:32:04,412 [flam.orchestrator] INFO — [cf-auth] already stopped
+2026-05-17 22:32:04,416 [flam.orchestrator] INFO — [chat] already stopped
+2026-05-17 22:32:04,420 [flam.orchestrator] INFO — [cf-chat] already stopped
+2026-05-17 22:32:04,424 [flam.orchestrator] INFO — [maps] already stopped
+2026-05-17 22:32:04,429 [flam.orchestrator] INFO — [cf-maps] already stopped
+2026-05-17 22:32:04,437 [flam.orchestrator] INFO — [games] already stopped
+2026-05-17 22:32:04,443 [flam.orchestrator] INFO — [cf-games] already stopped
+2026-05-17 22:32:04,448 [flam.orchestrator] INFO — [hypntyz] already stopped
+2026-05-17 22:32:04,452 [flam.orchestrator] INFO — [cf-hypntyz] already stopped
+2026-05-17 22:32:04,457 [flam.orchestrator] INFO — [ingestion] already stopped
+2026-05-17 22:32:04,461 [flam.orchestrator] INFO — [cf-ingestion] already stopped
+2026-05-17 22:32:04,465 [flam.orchestrator] INFO — [crm-frontend] already stopped
+2026-05-17 22:32:04,469 [flam.orchestrator] INFO — [crm-backend] already stopped
+2026-05-17 22:32:04,474 [flam.orchestrator] INFO — [crm-celery] already stopped
+2026-05-17 22:32:04,478 [flam.orchestrator] INFO — [crm-redis] stopping session 'FlamCRMRedis'
+2026-05-17 22:32:04,483 [flam.orchestrator] INFO — [crm-redis] ✓ stopped
+2026-05-17 22:32:04,487 [flam.orchestrator] INFO — [cf-crm] already stopped
+2026-05-17 22:32:04,492 [flam.orchestrator] INFO — [pangea-analytics] already stopped
+2026-05-17 22:32:04,496 [flam.orchestrator] INFO — [pangea-api-gateway] already stopped
+2026-05-17 22:32:04,501 [flam.orchestrator] INFO — [pangea-auth] already stopped
+2026-05-17 22:32:04,505 [flam.orchestrator] INFO — [pangea-blockchain] already stopped
+2026-05-17 22:32:04,510 [flam.orchestrator] INFO — [pangea-core-comm] already stopped
+2026-05-17 22:32:04,514 [flam.orchestrator] INFO — [pangea-customer] already stopped
+2026-05-17 22:32:04,518 [flam.orchestrator] INFO — [pangea-customs] already stopped
+2026-05-17 22:32:04,522 [flam.orchestrator] INFO — [pangea-driver-location] already stopped
+2026-05-17 22:32:04,526 [flam.orchestrator] INFO — [pangea-eta] already stopped
+2026-05-17 22:32:04,533 [flam.orchestrator] INFO — [pangea-event-bus] already stopped
+2026-05-17 22:32:04,540 [flam.orchestrator] INFO — [pangea-frontend] already stopped
+2026-05-17 22:32:04,545 [flam.orchestrator] INFO — [pangea-inventory] already stopped
+2026-05-17 22:32:04,550 [flam.orchestrator] INFO — [pangea-map] already stopped
+2026-05-17 22:32:04,554 [flam.orchestrator] INFO — [pangea-motoculture] already stopped
+2026-05-17 22:32:04,558 [flam.orchestrator] INFO — [pangea-notification] already stopped
+2026-05-17 22:32:04,563 [flam.orchestrator] INFO — [pangea-orch] already stopped
+2026-05-17 22:32:04,567 [flam.orchestrator] INFO — [pangea-order] already stopped
+2026-05-17 22:32:04,573 [flam.orchestrator] INFO — [pangea-payment] already stopped
+2026-05-17 22:32:04,577 [flam.orchestrator] INFO — [pangea-pricing] already stopped
+2026-05-17 22:32:04,581 [flam.orchestrator] INFO — [pangea-product] already stopped
+2026-05-17 22:32:04,585 [flam.orchestrator] INFO — [pangea-ride-matching] already stopped
+2026-05-17 22:32:04,589 [flam.orchestrator] INFO — [pangea-routing] already stopped
+2026-05-17 22:32:04,593 [flam.orchestrator] INFO — [pangea-superbase] already stopped
+2026-05-17 22:32:04,598 [flam.orchestrator] INFO — [pangea-traffic] already stopped
+2026-05-17 22:32:04,602 [flam.orchestrator] INFO — [pangea-user-management] already stopped
+2026-05-17 22:32:32,071 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-17 22:32:32,076 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-17 22:42:30,915 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-17 22:42:30,921 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-17 22:44:10,348 [flam.watchdog] INFO — Watchdog started — interval=10s, restart_limit=5
+2026-05-17 22:45:13,746 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-17 22:45:13,754 [flam.orchestrator] INFO — [nginx] ✓ started
