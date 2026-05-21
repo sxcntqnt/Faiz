@@ -2,20 +2,12 @@
 # ─────────────────────────────────────────────────────────────────────────────
 #  FlamOS — tmux router (core/router.sh)
 #
-#  Evolved from tmuxSmtWdw.sh with:
-#  - Aliases / shortcuts
-#  - Recency scoring (most-recently-used floats to top)
-#  - Levenshtein-style best-match across ALL live sessions
-#  - Merges registry knowledge (sessions from services.yaml via $FLAM_SESSIONS)
-#  - Falls back to creating a new window in the first session
-#
 #  Usage:
 #    router.sh <fuzzy-name>
 #    FLAM_SESSIONS="nginx:FlamNginx,maps:FlamMaps" router.sh maps
 # ─────────────────────────────────────────────────────────────────────────────
 
 TARGET_RAW="${1:-}"
-
 if [ -z "$TARGET_RAW" ]; then
   echo "Usage: router.sh <window_or_session_name>"
   exit 1
@@ -25,18 +17,106 @@ TARGET=$(echo "$TARGET_RAW" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
 
 # ── Aliases ────────────────────────────────────────────────────────────────────
 declare -A ALIASES=(
-  ["cf"]="cloudflare"
-  ["cfd"]="cloudflare"
-  ["wx"]="weather"
-  ["web"]="weather"
-  ["sv"]="weather"
-  ["svelte"]="weather"
-  ["mp"]="maps"
+
+  # ── Infra ──────────────────────────────────────────────────────────────────
   ["ng"]="nginx"
+  ["vt"]="vault"
+  ["vault"]="vault"
+
+  # ── Databases ──────────────────────────────────────────────────────────────
+  ["dg"]="dgraph-alpha"
+  ["dgraph"]="dgraph-alpha"
+  ["alpha"]="dgraph-alpha"
+  ["dg0"]="dgraph-zero"
+  ["zero"]="dgraph-zero"
+
+  # ── Auth stack ─────────────────────────────────────────────────────────────
+  ["as"]="auth-service"
+  ["auth"]="auth-service"
+  ["boot"]="auth-bootstrap"
+  ["bootstrap"]="auth-bootstrap"
+
+  # ── Apps ───────────────────────────────────────────────────────────────────
+  ["rw"]="root-web"
+  ["root"]="root-web"
+  ["web"]="root-web"
+  ["chat"]="chat"
+  ["maps"]="maps"
+  ["games"]="games"
+  ["hyp"]="hypntyz"
+  ["hype"]="hypntyz"
+  ["ing"]="ingestion"
+  ["ingest"]="ingestion"
+
+  # ── Gatebill / KYC engine ─────────────────────────────────────────────────
+  ["gb"]="gatebill-frontend"
+  ["gate"]="gatebill-frontend"
+  ["kyc"]="gatebill-frontend"
+  ["w1"]="gatebill-worker-1"
+  ["w2"]="gatebill-worker-2"
+  ["worker1"]="gatebill-worker-1"
+  ["worker2"]="gatebill-worker-2"
+  ["kyc1"]="gatebill-worker-1"
+  ["kyc2"]="gatebill-worker-2"
+
+  # ── CRM ────────────────────────────────────────────────────────────────────
+  ["crm"]="crm-frontend"
+  ["crm-api"]="crm-backend"
+  ["crm-be"]="crm-backend"
+  ["celery"]="crm-celery"
+  ["redis"]="crm-redis"
+
+  # ── Marketing ──────────────────────────────────────────────────────────────
+  ["n8n"]="n8n"
+  ["flows"]="n8n"
+  ["automations"]="n8n"
+
+  # ── Pangea gateway (entry point) ───────────────────────────────────────────
+  ["pg"]="pangea-api-gateway"
+  ["gw"]="pangea-api-gateway"
+  ["pangea"]="pangea-api-gateway"
+
+  # ── Pangea services ────────────────────────────────────────────────────────
+  ["p-auth"]="pangea-auth"
+  ["p-an"]="pangea-analytics"
+  ["p-chain"]="pangea-blockchain"
+  ["p-comm"]="pangea-core-comm"
+  ["p-cust"]="pangea-customer"
+  ["p-customs"]="pangea-customs"
+  ["p-loc"]="pangea-driver-location"
+  ["p-eta"]="pangea-eta"
+  ["p-bus"]="pangea-event-bus"
+  ["p-front"]="pangea-frontend"
+  ["p-inv"]="pangea-inventory"
+  ["p-map"]="pangea-map"
+  ["p-moto"]="pangea-motoculture"
+  ["p-notif"]="pangea-notification"
+  ["p-orch"]="pangea-orch"
+  ["p-order"]="pangea-order"
+  ["p-pay"]="pangea-payment"
+  ["p-price"]="pangea-pricing"
+  ["p-prod"]="pangea-product"
+  ["p-ride"]="pangea-ride-matching"
+  ["p-route"]="pangea-routing"
+  ["p-db"]="pangea-superbase"
+  ["p-traffic"]="pangea-traffic"
+  ["p-users"]="pangea-user-management"
+
+  # ── Tunnels ────────────────────────────────────────────────────────────────
+  ["cf"]="cf-root"
+  ["cf-root"]="cf-root"
+  ["cf-auth"]="cf-auth"
+  ["cf-chat"]="cf-chat"
+  ["cf-maps"]="cf-maps"
+  ["cf-games"]="cf-games"
+  ["cf-hyp"]="cf-hypntyz"
+  ["cf-ing"]="cf-ingestion"
+  ["cf-crm"]="cf-crm"
+
+  # ── FlamOS meta ────────────────────────────────────────────────────────────
   ["wd"]="watchdog"
   ["dog"]="watchdog"
-  ["obs"]="observability"
-  ["infra"]="nginx"
+  ["panic"]="flampanic"
 )
 
 # Resolve alias
@@ -52,43 +132,36 @@ mkdir -p "$(dirname "$RECENCY_FILE")" 2>/dev/null
 
 recency_score() {
   local name="$1"
-  local score=0
   if [ -f "$RECENCY_FILE" ]; then
     local line
     line=$(grep "^${name}:" "$RECENCY_FILE" 2>/dev/null | tail -1)
-    score="${line##*:}"
-    score="${score:-0}"
+    echo "${line##*:}"
   fi
-  echo "${score:-0}"
+  echo "0"
 }
 
 record_visit() {
   local name="$1"
   local ts
   ts=$(date +%s)
-  # Keep last 50 entries
   {
     grep -v "^${name}:" "$RECENCY_FILE" 2>/dev/null | tail -49
     echo "${name}:${ts}"
   } > "${RECENCY_FILE}.tmp" && mv "${RECENCY_FILE}.tmp" "$RECENCY_FILE"
 }
 
-# ── Collect all candidate session names ────────────────────────────────────────
-# From live tmux + from FLAM_SESSIONS env var (injected by flam jump)
+# ── Collect candidates: live tmux sessions + registry env ─────────────────────
 declare -A CANDIDATES  # name_lower → "session:window_index"
 
-# From live tmux sessions
 if tmux ls >/dev/null 2>&1; then
   while IFS='|' read -r SESSION IDX WNAME; do
-    KEY=$(echo "$SESSION" | tr '[:upper:]' '[:lower:]' | sed 's/^flam//')
+    KEY=$(echo "$SESSION" | tr '[:upper:]' '[:lower:]' | sed 's/^flam//' | sed 's/^pangea/p-/')
     CANDIDATES["$KEY"]="${SESSION}:${IDX}"
-    # Also index window names
     WKEY=$(echo "$WNAME" | tr '[:upper:]' '[:lower:]')
     CANDIDATES["$WKEY"]="${SESSION}:${IDX}"
   done < <(tmux list-windows -a -F '#S|#I|#W' 2>/dev/null)
 fi
 
-# From registry env (format: "name:Session,name2:Session2")
 if [ -n "${FLAM_SESSIONS:-}" ]; then
   IFS=',' read -ra PAIRS <<< "$FLAM_SESSIONS"
   for PAIR in "${PAIRS[@]}"; do
@@ -106,31 +179,24 @@ best_score=-1
 for key in "${!CANDIDATES[@]}"; do
   score=0
 
-  # Exact match = highest score
   if [[ "$key" == "$TARGET" ]]; then
     score=1000
-  # Prefix match
   elif [[ "$key" == "${TARGET}"* ]]; then
     score=500
-  # Substring: target in key
   elif [[ "$key" == *"${TARGET}"* ]]; then
     score=200
-  # Substring: key in target
   elif [[ "$TARGET" == *"${key}"* ]]; then
     score=100
   else
     continue
   fi
 
-  # Add recency bonus (0 → 50 range)
   ts=$(recency_score "$key")
   now=$(date +%s)
   if [ "$ts" -gt 0 ] 2>/dev/null; then
     age=$(( now - ts ))
-    if [ "$age" -lt 3600 ]; then
-      score=$(( score + 50 ))
-    elif [ "$age" -lt 86400 ]; then
-      score=$(( score + 20 ))
+    if   [ "$age" -lt 3600  ]; then score=$(( score + 50 ))
+    elif [ "$age" -lt 86400 ]; then score=$(( score + 20 ))
     fi
   fi
 
@@ -140,7 +206,7 @@ for key in "${!CANDIDATES[@]}"; do
   fi
 done
 
-# ── Navigate or create ─────────────────────────────────────────────────────────
+# ── Navigate ───────────────────────────────────────────────────────────────────
 if [ -n "$best_key" ]; then
   TARGET_REF="${CANDIDATES[$best_key]}"
   SESSION="${TARGET_REF%%:*}"
@@ -155,11 +221,8 @@ if [ -n "$best_key" ]; then
   fi
 
   if [ -n "$TMUX" ]; then
-    if [ -n "$WIN_IDX" ]; then
-      tmux switch-client -t "${SESSION}:${WIN_IDX}"
-    else
-      tmux switch-client -t "$SESSION"
-    fi
+    [ -n "$WIN_IDX" ] && tmux switch-client -t "${SESSION}:${WIN_IDX}" \
+                      || tmux switch-client -t "$SESSION"
   else
     tmux attach-session -t "$SESSION"
   fi
@@ -167,13 +230,13 @@ if [ -n "$best_key" ]; then
   exit 0
 fi
 
-# ── No match — offer to create ─────────────────────────────────────────────────
+# ── No match ───────────────────────────────────────────────────────────────────
 echo "  No match for: $TARGET"
-echo "  Known sessions:"
-for key in "${!CANDIDATES[@]}"; do
-  echo "    · $key"
-done | sort
-
 echo ""
-echo "  To add '$TARGET' to the registry: edit config/services.yaml"
+echo "  Registered aliases:"
+for key in $(echo "${!ALIASES[@]}" | tr ' ' '\n' | sort); do
+  printf "    %-16s → %s\n" "$key" "${ALIASES[$key]}"
+done
+echo ""
+echo "  To add '$TARGET': edit config/services.yaml or add an alias to core/router.sh"
 exit 1

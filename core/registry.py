@@ -40,6 +40,7 @@ class Service:
     tags: list[str] = field(default_factory=list)
     log_file: str | None = None
     port: int | None = None
+    depends_on: dict[str, dict] = field(default_factory=dict)  # metadata, not yet enforced
 
     def resolved_command(self) -> str:
         return _resolve_env(self.command.strip())
@@ -63,6 +64,7 @@ class Registry:
         self._raw: dict[str, Any] = {}
         self.defaults = Defaults()
         self.services: dict[str, Service] = {}
+        self.groups: dict[str, list[str]] = {}
         self._load()
 
     def _load(self) -> None:
@@ -92,7 +94,17 @@ class Registry:
                 tags=raw.get("tags", []),
                 log_file=raw.get("log_file"),
                 port=raw.get("port"),
+                depends_on=raw.get("depends_on", {}),
             )
+
+        self.groups = {}
+        for group_name, members in (self._raw.get("groups") or {}).items():
+            unknown = [m for m in members if m not in self.services]
+            if unknown:
+                raise ValueError(
+                    f"Group '{group_name}' references unknown services: {unknown}"
+                )
+            self.groups[group_name] = list(members)
 
     def reload(self) -> None:
         self._load()

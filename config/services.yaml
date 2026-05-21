@@ -10,6 +10,32 @@ defaults:
   state_file: ./state/workspace.json
   log_dir: ./logs
 
+# ─────────────────────────────────────────────
+#  Groups — explicit named collections.
+#  Use with any flam command:
+#    flam up apps
+#    flam doctor crm
+#    flam panic pangea
+#    flam watch tunnels
+# ─────────────────────────────────────────────
+
+groups:
+  apps:       [root-web, auth, chat, maps, games, hypntyz]
+  crm:        [crm-frontend, crm-backend, crm-celery, crm-redis, cf-crm]
+  marketing:  [n8n]
+  auth-stack: [vault, dgraph-zero, dgraph-alpha, auth-bootstrap, auth-service]
+  gatebill:   [gatebill-frontend, gatebill-worker-1, gatebill-worker-2]
+  pangea:     [pangea-analytics, pangea-api-gateway, pangea-auth, pangea-blockchain,
+                pangea-core-comm, pangea-customer, pangea-customs, pangea-driver-location,
+                pangea-eta, pangea-event-bus, pangea-frontend, pangea-inventory,
+                pangea-map, pangea-motoculture, pangea-notification, pangea-orch,
+                pangea-order, pangea-payment, pangea-pricing, pangea-product,
+                pangea-ride-matching, pangea-routing, pangea-superbase, pangea-traffic,
+                pangea-user-management]
+  tunnels:    [cf-root, cf-auth, cf-chat, cf-maps, cf-games, cf-hypntyz,
+                cf-ingestion, cf-crm]
+  infra:      [nginx, vault, dgraph-zero, dgraph-alpha]
+
 services:
 
   # ─────────────────────────────
@@ -34,7 +60,7 @@ services:
     session: FlamRootWeb
     command: "pnpm run dev"
     dir: /sec/root/FLTM/SHFTCCONK
-    health_check: "curl -sf http://localhost:5173 -o /dev/null"
+    health_check: "curl -sf http://localhost:5100 -o /dev/null"
     color: blue
     critical: true
     tags: [frontend]
@@ -252,7 +278,127 @@ services:
     tags: [tunnel, crm]
 
   # ─────────────────────────────
-  # PANGEA — analytics
+  # MARKETING
+  # ─────────────────────────────
+
+  n8n:
+    session: FlamN8n
+    command: "n8n start"
+    dir: /sec/root/FLTM/marketing
+    health_check: "curl -sf http://localhost:5678 -o /dev/null"
+    color: orange
+    critical: false
+    tags: [marketing, automation]
+    port: 5678
+
+  # ─────────────────────────────
+  # AUTH STACK
+  # Boot order: vault → dgraph-zero → dgraph-alpha → auth-bootstrap → auth-service
+  # ─────────────────────────────
+
+  vault:
+    session: FlamVault
+    command: "vault server -dev -dev-listen-address=0.0.0.0:8200"
+    dir: /
+    health_check: "curl -sf http://localhost:8200/v1/sys/health -o /dev/null"
+    color: yellow
+    critical: true
+    tags: [infra, security]
+
+  dgraph-zero:
+    session: FlamDgraphZero
+    command: "dgraph zero --my=localhost:5080"
+    dir: /
+    health_check: "curl -sf http://localhost:6080/state -o /dev/null"
+    color: cyan
+    critical: true
+    tags: [infra, database]
+
+  dgraph-alpha:
+    session: FlamDgraphAlpha
+    command: "dgraph alpha --my=localhost:7080 --zero=localhost:5080 --security 'whitelist=0.0.0.0/0'"
+    dir: /
+    health_check: "curl -sf http://localhost:8080/health -o /dev/null"
+    color: blue
+    critical: true
+    tags: [infra, database]
+    depends_on:
+      dgraph-zero:
+        condition: process_healthy
+
+  auth-bootstrap:
+    session: FlamAuthBootstrap
+    command: >
+      export VAULT_ADDR='http://localhost:8200' &&
+      export VAULT_TOKEN='root' &&
+      bash ./scripts/vault-bootstrap.sh &&
+      touch /tmp/auth_bootstrapped
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "test -f /tmp/auth_bootstrapped"
+    color: white
+    critical: true
+    tags: [setup]
+    depends_on:
+      vault:
+        condition: process_healthy
+
+  auth-service:
+    session: FlamAuthService
+    command: "pnpm --filter auth run dev"
+    dir: /sec/root/FLTM/SHFTCCONK/auth
+    health_check: "curl -sf http://localhost:3000/health -o /dev/null"
+    color: green
+    critical: true
+    tags: [backend, auth]
+    depends_on:
+      auth-bootstrap:
+        condition: process_healthy
+      dgraph-alpha:
+        condition: process_healthy
+
+  # ─────────────────────────────
+  # GATEBILL — KYC Engine
+  # Boot order: auth-service → gatebill-frontend → workers
+  # ─────────────────────────────
+
+  gatebill-frontend:
+    session: FlamGatebillFrontend
+    command: "go run ./cmd/server/main.go"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "curl -sf http://localhost:9900/health -o /dev/null"
+    color: green
+    critical: true
+    tags: [gatebill, kyc, frontend]
+    port: 9900
+    depends_on:
+      auth-service:
+        condition: process_healthy
+
+  gatebill-worker-1:
+    session: FlamGatebillWorker1
+    command: "python3 src/workers/kyc_processor.py"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "pgrep -fa kyc_processor.py"
+    color: yellow
+    critical: true
+    tags: [gatebill, kyc, worker]
+    depends_on:
+      gatebill-frontend:
+        condition: process_started
+
+  gatebill-worker-2:
+    session: FlamGatebillWorker2
+    command: "python3 src/workers/document_verifier.py"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "pgrep -fa document_verifier.py"
+    color: magenta
+    critical: false
+    tags: [gatebill, kyc, worker]
+    depends_on:
+      gatebill-frontend:
+        condition: process_started
+
+  # ─────────────────────────────
   # ─────────────────────────────
 
   pangea-analytics:
