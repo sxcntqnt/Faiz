@@ -408,3 +408,106 @@
 2026-05-19 14:02:03,425 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
 2026-05-19 14:02:03,440 [flam.orchestrator] INFO — [nginx] ✓ started
 2026-05-19 14:02:11,066 [flam.watchdog] INFO — Watchdog started — interval=10s, restart_limit=5
+2026-05-26 22:15:55,101 [flam.orchestrator] INFO — [auth] starting → tmux session 'FlamAuth'
+2026-05-26 22:15:55,108 [flam.orchestrator] INFO — [auth] ✓ started
+2026-05-27 11:19:40,871 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-27 11:19:40,878 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-27 11:19:41,884 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-27 11:19:41,890 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-27 11:25:55,103 [flam.orchestrator] INFO — [root-web] already stopped
+2026-05-27 11:26:07,616 [flam.orchestrator] INFO — [cf-root] stopping session 'FlamTunnelRoot'
+2026-05-27 11:26:07,620 [flam.orchestrator] INFO — [cf-root] ✓ stopped
+2026-05-27 11:26:20,424 [flam.orchestrator] INFO — [nginx] already stopped
+2026-05-27 11:26:21,440 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-27 11:26:21,445 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-27 11:26:34,767 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-27 11:26:34,773 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-27 11:26:58,083 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-27 11:26:58,089 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-27 11:31:51,540 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-27 11:31:51,547 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-27 11:49:20,507 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-27 11:49:20,514 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-27 13:51:32,623 [flam.orchestrator] INFO — [root-web] already running in session FlamRootWeb
+2026-05-27 13:51:32,637 [flam.orchestrator] INFO — [auth] starting → tmux session 'FlamAuth'
+2026-05-27 13:51:32,643 [flam.orchestrator] INFO — [auth] ✓ started
+2026-05-27 13:51:32,648 [flam.orchestrator] INFO — [chat] starting → tmux session 'FlamChat'
+2026-05-27 13:51:32,654 [flam.orchestrator] INFO — [chat] ✓ started
+2026-05-27 13:51:32,659 [flam.orchestrator] INFO — [maps] starting → tmux session 'FlamMaps'
+2026-05-27 13:51:32,665 [flam.orchestrator] INFO — [maps] ✓ started
+2026-05-27 13:51:32,671 [flam.orchestrator] INFO — [games] starting → tmux session 'FlamGames'
+2026-05-27 13:51:32,677 [flam.orchestrator] INFO — [games] ✓ started
+2026-05-27 13:51:32,683 [flam.orchestrator] INFO — [hypntyz] starting → tmux session 'FlamHypntyz'
+2026-05-27 13:51:32,698 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-05-27 17:34:14,217 [flam.orchestrator] INFO — [nginx] already stopped
+2026-05-27 17:34:15,222 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-27 17:34:15,228 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-28 14:49:52,921 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-28 14:49:52,926 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-28 14:49:53,933 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-28 14:49:53,938 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-28 15:30:04,085 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-28 15:30:04,091 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-28 15:30:05,097 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-28 15:30:05,103 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-28 15:30:30,050 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-28 15:30:30,055 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-28 15:31:01,504 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-28 15:31:01,510 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-28 15:36:32,145 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-28 15:36:32,152 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-28 15:38:17,614 [flam.orchestrator] INFO — [nginx] already stopped
+2026-05-28 15:38:18,621 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-28 15:38:18,631 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-28 15:40:02,862 [flam.orchestrator] INFO — [root-web] already running in session FlamRootWeb
+2026-05-28 15:41:21,496 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-28 15:41:21,503 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-28 15:43:08,710 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-28 15:43:08,717 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-28 15:43:16,413 [flam.orchestrator] INFO — [cf-root] stopping session 'FlamTunnelRoot'
+2026-05-28 15:43:16,419 [flam.orchestrator] INFO — [cf-root] ✓ stopped
+2026-05-28 15:43:24,523 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-28 15:43:24,540 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-28 15:43:41,059 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-28 15:43:41,068 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-28 15:55:17,438 [flam.orchestrator] INFO — [nginx] already stopped
+2026-05-28 15:55:18,444 [flam.orchestrator] INFO — [nginx] starting → tmux session 'FlamNginx'
+2026-05-28 15:55:18,449 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-05-29 00:23:38,023 [flam.orchestrator] INFO — [cf-root] stopping session 'FlamTunnelRoot'
+2026-05-29 00:23:38,029 [flam.orchestrator] INFO — [cf-root] ✓ stopped
+2026-05-29 00:23:46,770 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-29 00:23:46,775 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-29 00:23:55,372 [flam.orchestrator] INFO — [cf-root] starting → tmux session 'FlamTunnelRoot'
+2026-05-29 00:23:55,378 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-05-29 00:25:31,765 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 00:25:31,771 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-29 00:25:52,452 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 00:25:52,457 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-29 00:28:14,563 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 00:28:14,568 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-29 14:23:39,560 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 14:23:39,567 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-29 19:51:07,196 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-29 19:51:07,202 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-29 19:54:02,509 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 19:54:02,516 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-29 20:34:58,316 [flam.orchestrator] INFO — [root-web] stopping session 'FlamRootWeb'
+2026-05-29 20:34:58,323 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-05-29 20:37:30,586 [flam.orchestrator] INFO — [root-web] starting → tmux session 'FlamRootWeb'
+2026-05-29 20:37:30,591 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-05-30 16:08:27,120 [flam.orchestrator] INFO — [auth] starting → tmux session 'FlamAuth'
+2026-05-30 16:08:27,134 [flam.orchestrator] INFO — [auth] ✓ started
+2026-05-30 16:09:27,563 [flam.orchestrator] INFO — [auth] starting → tmux session 'FlamAuth'
+2026-05-30 16:09:27,570 [flam.orchestrator] INFO — [auth] ✓ started
+2026-05-30 16:12:15,426 [flam.orchestrator] INFO — [vault] starting → tmux session 'FlamVault'
+2026-05-30 16:12:15,433 [flam.orchestrator] INFO — [vault] ✓ started
+2026-05-30 16:13:47,446 [flam.orchestrator] INFO — [dgraph-zero] starting → tmux session 'FlamDgraphZero'
+2026-05-30 16:13:47,452 [flam.orchestrator] INFO — [dgraph-zero] ✓ started
+2026-05-30 16:14:05,123 [flam.orchestrator] INFO — [dgraph-alpha] starting → tmux session 'FlamDgraphAlpha'
+2026-05-30 16:14:05,134 [flam.orchestrator] INFO — [dgraph-alpha] ✓ started
+2026-05-30 16:23:23,798 [flam.orchestrator] INFO — [auth-bootstrap] starting → tmux session 'FlamAuthBootstrap'
+2026-05-30 16:23:23,805 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-05-30 16:49:19,288 [flam.orchestrator] INFO — [auth-bootstrap] starting → tmux session 'FlamAuthBootstrap'
+2026-05-30 16:49:19,294 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-03 02:16:54,300 [flam.orchestrator] INFO — [vault] starting → tmux session 'FlamVault'
+2026-06-03 02:16:54,306 [flam.orchestrator] INFO — [vault] ✓ started

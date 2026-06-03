@@ -20,7 +20,7 @@ defaults:
 # ─────────────────────────────────────────────
 
 groups:
-  apps:       [root-web, auth, chat, maps, games, hypntyz]
+  apps:       [root-web, auth-service, chat, maps, games, hypntyz]
   crm:        [crm-frontend, crm-backend, crm-celery, crm-redis, cf-crm]
   marketing:  [n8n]
   auth-stack: [vault, dgraph-zero, dgraph-alpha, auth-bootstrap, auth-service]
@@ -58,7 +58,7 @@ services:
 
   root-web:
     session: FlamRootWeb
-    command: "pnpm run dev"
+    command: "pnpm run prod-start"
     dir: /sec/root/FLTM/SHFTCCONK
     health_check: "curl -sf http://localhost:5100 -o /dev/null"
     color: blue
@@ -80,15 +80,38 @@ services:
   # AUTH
   # ─────────────────────────────
 
-  auth:
+  auth-bootstrap:
+    session: FlamAuthBootstrap
+    command: >
+      VAULT_ADDR=${VAULT_ADDR}
+      VAULT_TOKEN=${VAULT_TOKEN}
+      ENV_FILE=/tmp/prod.env
+      bash ./scripts/vault_bootstrap.sh &&
+      touch /tmp/auth_bootstrapped
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "test -f /tmp/auth_bootstrapped"
+    color: white
+    critical: true
+    tags: [setup]
+
+  auth-service:
     session: FlamAuth
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/auth
+    command: >
+      set -a &&
+      source /tmp/prod.env &&
+      set +a &&
+      go run main.go
+    dir: /sec/root/FLTM/auth-service
     health_check: "curl -sf http://localhost:5500 -o /dev/null"
     color: red
     critical: true
     tags: [backend, auth]
     port: 5500
+    depends_on:
+      auth-bootstrap:
+        condition: process_healthy
+      dgraph-alpha:
+        condition: process_healthy
 
   cf-auth:
     session: FlamTunnelAuth
@@ -331,7 +354,7 @@ services:
     command: >
       export VAULT_ADDR='http://localhost:8200' &&
       export VAULT_TOKEN='root' &&
-      bash ./scripts/vault-bootstrap.sh &&
+      bash ./scripts/vault-bootstrap.sh > /tmp/bootstrap &&
       touch /tmp/auth_bootstrapped
     dir: /sec/root/FLTM/SHFTCCONK
     health_check: "test -f /tmp/auth_bootstrapped"
@@ -342,19 +365,6 @@ services:
       vault:
         condition: process_healthy
 
-  auth-service:
-    session: FlamAuthService
-    command: "pnpm --filter auth run dev"
-    dir: /sec/root/FLTM/SHFTCCONK/auth
-    health_check: "curl -sf http://localhost:3000/health -o /dev/null"
-    color: green
-    critical: true
-    tags: [backend, auth]
-    depends_on:
-      auth-bootstrap:
-        condition: process_healthy
-      dgraph-alpha:
-        condition: process_healthy
 
   # ─────────────────────────────
   # GATEBILL — KYC Engine
