@@ -9,6 +9,7 @@ import subprocess
 import shlex
 from dataclasses import dataclass
 
+
 def _run(cmd: list[str], check: bool = False) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True, check=check)
 
@@ -39,7 +40,20 @@ def new_session(name: str, command: str, working_dir: str = "/") -> bool:
     return result.returncode == 0
 
 
-def send_keys(session: str, keys: str) -> None:
+def capture_pane(session: str, lines: int = 30) -> str:
+    """
+    Capture the last N lines of output from a session's active pane.
+    Returns empty string if session is gone or capture fails.
+    Call immediately after noticing a session has died — tmux clears pane
+    history once the session is fully removed.
+    """
+    result = _run([
+        "tmux", "capture-pane",
+        "-p",           # print to stdout
+        "-t", session,
+        "-S", f"-{lines}",  # last N lines
+    ])
+    return result.stdout.strip() if result.returncode == 0 else ""
     _run(["tmux", "send-keys", "-t", session, keys, "Enter"])
 
 

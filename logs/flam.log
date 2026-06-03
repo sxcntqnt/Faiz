@@ -511,3 +511,15 @@
 2026-05-30 16:49:19,294 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
 2026-06-03 02:16:54,300 [flam.orchestrator] INFO — [vault] starting → tmux session 'FlamVault'
 2026-06-03 02:16:54,306 [flam.orchestrator] INFO — [vault] ✓ started
+2026-06-03 02:22:37,018 [flam.orchestrator] INFO — [auth-service] starting → tmux session 'FlamAuth'
+2026-06-03 02:22:37,024 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-03 02:24:21,423 [flam.orchestrator] INFO — [auth-service] starting → tmux session 'FlamAuth'
+2026-06-03 02:24:21,438 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-03 02:28:09,044 [flam.orchestrator] INFO — [auth-bootstrap] starting → tmux session 'FlamAuthBootstrap'
+2026-06-03 02:28:09,049 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-03 02:29:00,040 [flam.orchestrator] INFO — [auth-service] starting → tmux session 'FlamAuth'
+2026-06-03 02:29:00,049 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-03 02:34:17,881 [flam.orchestrator] INFO — [auth-service] starting → tmux session 'FlamAuth'
+2026-06-03 02:34:17,886 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-03 02:47:14,650 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 02:47:16,666 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately

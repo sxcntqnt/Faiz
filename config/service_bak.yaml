@@ -1,0 +1,758 @@
+# ─────────────────────────────────────────────
+#  FlamOS Service Registry
+#  All services declared here. flam reads this.
+# ─────────────────────────────────────────────
+
+defaults:
+  watchdog_interval: 10
+  restart_limit: 5
+  restart_cooldown: 30
+  state_file: ./state/workspace.json
+  log_dir: ./logs
+
+# ─────────────────────────────────────────────
+#  Groups — explicit named collections.
+#  Use with any flam command:
+#    flam up apps
+#    flam doctor crm
+#    flam panic pangea
+#    flam watch tunnels
+# ─────────────────────────────────────────────
+
+groups:
+  apps:       [root-web, auth-service, chat, maps, games, hypntyz]
+  crm:        [crm-frontend, crm-backend, crm-celery, crm-redis, cf-crm]
+  marketing:  [n8n]
+  auth-stack: [vault, dgraph-zero, dgraph-alpha, auth-bootstrap, auth-service]
+  gatebill:   [gatebill-frontend, gatebill-worker-1, gatebill-worker-2]
+  pangea:     [pangea-analytics, pangea-api-gateway, pangea-auth, pangea-blockchain,
+                pangea-core-comm, pangea-customer, pangea-customs, pangea-driver-location,
+                pangea-eta, pangea-event-bus, pangea-frontend, pangea-inventory,
+                pangea-map, pangea-motoculture, pangea-notification, pangea-orch,
+                pangea-order, pangea-payment, pangea-pricing, pangea-product,
+                pangea-ride-matching, pangea-routing, pangea-superbase, pangea-traffic,
+                pangea-user-management]
+  tunnels:    [cf-root, cf-auth, cf-chat, cf-maps, cf-games, cf-hypntyz,
+                cf-ingestion, cf-crm]
+  infra:      [nginx, vault, dgraph-zero, dgraph-alpha]
+
+services:
+
+  # ─────────────────────────────
+  # INFRA
+  # ─────────────────────────────
+
+  nginx:
+    session: FlamNginx
+    command: "nginx -g 'daemon off;'"
+    dir: /
+    health_check: "service nginx status"
+    color: green
+    critical: true
+    tags: [infra]
+    log_file: /var/log/nginx/error.log
+
+  # ─────────────────────────────
+  # ROOT SITE
+  # ─────────────────────────────
+
+  root-web:
+    session: FlamRootWeb
+    command: "pnpm run prod-start"
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "curl -sf http://localhost:5100 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [frontend]
+    port: 5100
+
+  cf-root:
+    session: FlamTunnelRoot
+    command: >
+      cloudflared tunnel run --token ${ROOT_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa ROOT_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # AUTH
+  # ─────────────────────────────
+
+  auth-bootstrap:
+    session: FlamAuthBootstrap
+    command: >
+      VAULT_ADDR=${VAULT_ADDR}
+      VAULT_TOKEN=${VAULT_TOKEN}
+      ENV_FILE=/tmp/prod.env
+      bash ./scripts/vault_bootstrap.sh &&
+      touch /tmp/auth_bootstrapped
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "test -f /tmp/auth_bootstrapped"
+    color: white
+    critical: true
+    tags: [setup]
+
+  auth-service:
+    session: FlamAuth
+    command: >
+      set -a &&
+      source /tmp/prod.env &&
+      set +a &&
+      go run main.go
+    dir: /sec/root/FLTM/auth-service
+    health_check: "curl -sf http://localhost:5500 -o /dev/null"
+    color: red
+    critical: true
+    tags: [backend, auth]
+    port: 5500
+    depends_on:
+      auth-bootstrap:
+        condition: process_healthy
+      dgraph-alpha:
+        condition: process_healthy
+
+  cf-auth:
+    session: FlamTunnelAuth
+    command: >
+      cloudflared tunnel run --token ${AUTH_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa AUTH_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # CHAT
+  # ─────────────────────────────
+
+  chat:
+    session: FlamChat
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/chat
+    health_check: "curl -sf http://localhost:5200 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [app, realtime]
+    port: 5200
+
+  cf-chat:
+    session: FlamTunnelChat
+    command: >
+      cloudflared tunnel run --token ${CHAT_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa CHAT_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # MAPS
+  # ─────────────────────────────
+
+  maps:
+    session: FlamMaps
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/maps
+    health_check: "curl -sf http://localhost:5174 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [maps, frontend]
+    port: 5174
+
+  cf-maps:
+    session: FlamTunnelMaps
+    command: >
+      cloudflared tunnel run --token ${MAPS_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa MAPS_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # GAMES
+  # ─────────────────────────────
+
+  games:
+    session: FlamGames
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/games
+    health_check: "curl -sf http://localhost:5300 -o /dev/null"
+    color: yellow
+    critical: false
+    tags: [games]
+    port: 5300
+
+  cf-games:
+    session: FlamTunnelGames
+    command: >
+      cloudflared tunnel run --token ${GAMES_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa GAMES_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # HYPNTYZ
+  # ─────────────────────────────
+
+  hypntyz:
+    session: FlamHypntyz
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/hypntyz
+    health_check: "curl -sf http://localhost:5400 -o /dev/null"
+    color: red
+    critical: true
+    tags: [ai, projection]
+    port: 5400
+
+  cf-hypntyz:
+    session: FlamTunnelHypntyz
+    command: >
+      cloudflared tunnel run --token ${HYPNTYZ_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa HYPNTYZ_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # INGESTION
+  # ─────────────────────────────
+
+  ingestion:
+    session: FlamIngestion
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/ingestion
+    health_check: "curl -sf http://localhost:5600 -o /dev/null"
+    color: white
+    critical: true
+    tags: [backend, ingestion]
+    port: 5600
+
+  cf-ingestion:
+    session: FlamTunnelIngestion
+    command: >
+      cloudflared tunnel run --token ${INGESTION_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa INGESTION_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel]
+
+  # ─────────────────────────────
+  # CRM
+  # ─────────────────────────────
+
+  crm-frontend:
+    session: FlamCRMFrontend
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/BottleCRM/frontend
+    health_check: "curl -sf http://localhost:5173 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [crm, frontend]
+    port: 5173
+
+  crm-backend:
+    session: FlamCRMBackend
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
+    dir: /sec/root/FLTM/BottleCRM/backend
+    health_check: "curl -sf http://localhost:8000/swagger-ui/ -o /dev/null"
+    color: green
+    critical: true
+    tags: [crm, backend, api]
+    port: 8000
+
+  crm-celery:
+    session: FlamCRMCelery
+    command: >
+      bash -c "source venv/bin/activate &&
+               celery -A crm worker --loglevel=INFO"
+    dir: /sec/root/FLTM/BottleCRM/backend
+    health_check: "pgrep -fa 'celery -A crm'"
+    color: red
+    critical: true
+    tags: [crm, worker, async]
+
+  crm-redis:
+    session: FlamCRMRedis
+    command: "redis-server"
+    dir: /
+    health_check: "redis-cli ping"
+    color: yellow
+    critical: true
+    tags: [crm, infra, redis]
+    port: 6379
+
+  cf-crm:
+    session: FlamTunnelCRM
+    command: >
+      cloudflared tunnel run --token ${CRM_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa CRM_TUNNEL_TOKEN"
+    color: magenta
+    critical: true
+    tags: [tunnel, crm]
+
+  # ─────────────────────────────
+  # MARKETING
+  # ─────────────────────────────
+
+  n8n:
+    session: FlamN8n
+    command: "n8n start"
+    dir: /sec/root/FLTM/marketing
+    health_check: "curl -sf http://localhost:5678 -o /dev/null"
+    color: orange
+    critical: false
+    tags: [marketing, automation]
+    port: 5678
+
+  # ─────────────────────────────
+  # AUTH STACK
+  # Boot order: vault → dgraph-zero → dgraph-alpha → auth-bootstrap → auth-service
+  # ─────────────────────────────
+
+  vault:
+    session: FlamVault
+    command: "vault server -dev -dev-listen-address=0.0.0.0:8200"
+    dir: /
+    health_check: "curl -sf http://localhost:8200/v1/sys/health -o /dev/null"
+    color: yellow
+    critical: true
+    tags: [infra, security]
+
+  dgraph-zero:
+    session: FlamDgraphZero
+    command: "dgraph zero --my=localhost:5080"
+    dir: /
+    health_check: "curl -sf http://localhost:6080/state -o /dev/null"
+    color: cyan
+    critical: true
+    tags: [infra, database]
+
+  dgraph-alpha:
+    session: FlamDgraphAlpha
+    command: "dgraph alpha --my=localhost:7080 --zero=localhost:5080 --security 'whitelist=0.0.0.0/0'"
+    dir: /
+    health_check: "curl -sf http://localhost:8080/health -o /dev/null"
+    color: blue
+    critical: true
+    tags: [infra, database]
+    depends_on:
+      dgraph-zero:
+        condition: process_healthy
+
+  auth-bootstrap:
+    session: FlamAuthBootstrap
+    command: >
+      export VAULT_ADDR='http://localhost:8200' &&
+      export VAULT_TOKEN='root' &&
+      bash ./scripts/vault-bootstrap.sh > /tmp/bootstrap &&
+      touch /tmp/auth_bootstrapped
+    dir: /sec/root/FLTM/SHFTCCONK
+    health_check: "test -f /tmp/auth_bootstrapped"
+    color: white
+    critical: true
+    tags: [setup]
+    depends_on:
+      vault:
+        condition: process_healthy
+
+
+  # ─────────────────────────────
+  # GATEBILL — KYC Engine
+  # Boot order: auth-service → gatebill-frontend → workers
+  # ─────────────────────────────
+
+  gatebill-frontend:
+    session: FlamGatebillFrontend
+    command: "go run ./cmd/server/main.go"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "curl -sf http://localhost:9900/health -o /dev/null"
+    color: green
+    critical: true
+    tags: [gatebill, kyc, frontend]
+    port: 9900
+    depends_on:
+      auth-service:
+        condition: process_healthy
+
+  gatebill-worker-1:
+    session: FlamGatebillWorker1
+    command: "python3 src/workers/kyc_processor.py"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "pgrep -fa kyc_processor.py"
+    color: yellow
+    critical: true
+    tags: [gatebill, kyc, worker]
+    depends_on:
+      gatebill-frontend:
+        condition: process_started
+
+  gatebill-worker-2:
+    session: FlamGatebillWorker2
+    command: "python3 src/workers/document_verifier.py"
+    dir: /sec/root/FLTM/SHFTCCONK/gatebill
+    health_check: "pgrep -fa document_verifier.py"
+    color: magenta
+    critical: false
+    tags: [gatebill, kyc, worker]
+    depends_on:
+      gatebill-frontend:
+        condition: process_started
+
+  # ─────────────────────────────
+  # ─────────────────────────────
+
+  pangea-analytics:
+    session: PangeaAnalytics
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/analytics-service
+    health_check: "curl -sf http://localhost:8101 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, analytics]
+    port: 8101
+
+  # ─────────────────────────────
+  # PANGEA — api gateway
+  # ─────────────────────────────
+
+  pangea-api-gateway:
+    session: PangeaApiGateway
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/api-gateway
+    health_check: "curl -sf http://localhost:8080 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [pangea, gateway, infra]
+    port: 8080
+
+  # ─────────────────────────────
+  # PANGEA — auth
+  # ─────────────────────────────
+
+  pangea-auth:
+    session: PangeaAuth
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/auth-service
+    health_check: "curl -sf http://localhost:8102 -o /dev/null"
+    color: red
+    critical: true
+    tags: [pangea, auth, backend]
+    port: 8102
+
+  # ─────────────────────────────
+  # PANGEA — blockchain
+  # ─────────────────────────────
+
+  pangea-blockchain:
+    session: PangeaBlockchain
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/blockchain-service
+    health_check: "curl -sf http://localhost:8103 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [pangea, blockchain]
+    port: 8103
+
+  # ─────────────────────────────
+  # PANGEA — core comm
+  # ─────────────────────────────
+
+  pangea-core-comm:
+    session: PangeaCoreComm
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/core-comm
+    health_check: "curl -sf http://localhost:8104 -o /dev/null"
+    color: magenta
+    critical: true
+    tags: [pangea, core, messaging]
+    port: 8104
+
+  # ─────────────────────────────
+  # PANGEA — customer
+  # ─────────────────────────────
+
+  pangea-customer:
+    session: PangeaCustomer
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/customer-service
+    health_check: "curl -sf http://localhost:8105 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, customer, backend]
+    port: 8105
+
+  # ─────────────────────────────
+  # PANGEA — customs
+  # ─────────────────────────────
+
+  pangea-customs:
+    session: PangeaCustoms
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/customs-service
+    health_check: "curl -sf http://localhost:8106 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, customs, backend]
+    port: 8106
+
+  # ─────────────────────────────
+  # PANGEA — driver location
+  # ─────────────────────────────
+
+  pangea-driver-location:
+    session: PangeaDriverLocation
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/driver-location-service
+    health_check: "curl -sf http://localhost:8107 -o /dev/null"
+    color: cyan
+    critical: true
+    tags: [pangea, location, realtime]
+    port: 8107
+
+  # ─────────────────────────────
+  # PANGEA — eta
+  # ─────────────────────────────
+
+  pangea-eta:
+    session: PangeaEta
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/eta-service
+    health_check: "curl -sf http://localhost:8108 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [pangea, eta, analytics]
+    port: 8108
+
+  # ─────────────────────────────
+  # PANGEA — event bus
+  # ─────────────────────────────
+
+  pangea-event-bus:
+    session: PangeaEventBus
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/event-bus-service
+    health_check: "curl -sf http://localhost:8109 -o /dev/null"
+    color: yellow
+    critical: true
+    tags: [pangea, events, messaging]
+    port: 8109
+
+  # ─────────────────────────────
+  # PANGEA — frontend
+  # ─────────────────────────────
+
+  pangea-frontend:
+    session: PangeaFrontend
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/frontend
+    health_check: "curl -sf http://localhost:3000 -o /dev/null"
+    color: blue
+    critical: false
+    tags: [pangea, frontend]
+    port: 3000
+
+  # ─────────────────────────────
+  # PANGEA — inventory
+  # ─────────────────────────────
+
+  pangea-inventory:
+    session: PangeaInventory
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/inventory-service
+    health_check: "curl -sf http://localhost:8110 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, inventory, backend]
+    port: 8110
+
+  # ─────────────────────────────
+  # PANGEA — map
+  # ─────────────────────────────
+
+  pangea-map:
+    session: PangeaMap
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/map-service
+    health_check: "curl -sf http://localhost:8111 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [pangea, maps, backend]
+    port: 8111
+
+  # ─────────────────────────────
+  # PANGEA — motoculture
+  # ─────────────────────────────
+
+  pangea-motoculture:
+    session: PangeaMotoculture
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/motoculture
+    health_check: "curl -sf http://localhost:8112 -o /dev/null"
+    color: magenta
+    critical: false
+    tags: [pangea, culture, content]
+    port: 8112
+
+  # ─────────────────────────────
+  # PANGEA — notification
+  # ─────────────────────────────
+
+  pangea-notification:
+    session: PangeaNotification
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/notification-service
+    health_check: "curl -sf http://localhost:8113 -o /dev/null"
+    color: yellow
+    critical: false
+    tags: [pangea, notifications, messaging]
+    port: 8113
+
+  # ─────────────────────────────
+  # PANGEA — orchestration
+  # ─────────────────────────────
+
+  pangea-orch:
+    session: PangeaOrch
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/orch-service
+    health_check: "curl -sf http://localhost:8114 -o /dev/null"
+    color: red
+    critical: true
+    tags: [pangea, orchestration, backend]
+    port: 8114
+
+  # ─────────────────────────────
+  # PANGEA — order
+  # ─────────────────────────────
+
+  pangea-order:
+    session: PangeaOrder
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/order-service
+    health_check: "curl -sf http://localhost:8115 -o /dev/null"
+    color: blue
+    critical: true
+    tags: [pangea, orders, backend]
+    port: 8115
+
+  # ─────────────────────────────
+  # PANGEA — payment
+  # ─────────────────────────────
+
+  pangea-payment:
+    session: PangeaPayment
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/payment-service
+    health_check: "curl -sf http://localhost:8116 -o /dev/null"
+    color: green
+    critical: true
+    tags: [pangea, payments, backend]
+    port: 8116
+
+  # ─────────────────────────────
+  # PANGEA — pricing
+  # ─────────────────────────────
+
+  pangea-pricing:
+    session: PangeaPricing
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/pricing-service
+    health_check: "curl -sf http://localhost:8117 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, pricing, backend]
+    port: 8117
+
+  # ─────────────────────────────
+  # PANGEA — product
+  # ─────────────────────────────
+
+  pangea-product:
+    session: PangeaProduct
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/product-service
+    health_check: "curl -sf http://localhost:8118 -o /dev/null"
+    color: white
+    critical: false
+    tags: [pangea, product, backend]
+    port: 8118
+
+  # ─────────────────────────────
+  # PANGEA — ride matching
+  # ─────────────────────────────
+
+  pangea-ride-matching:
+    session: PangeaRideMatching
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/ride-matching-service
+    health_check: "curl -sf http://localhost:8119 -o /dev/null"
+    color: red
+    critical: true
+    tags: [pangea, matching, realtime]
+    port: 8119
+
+  # ─────────────────────────────
+  # PANGEA — routing
+  # ─────────────────────────────
+
+  pangea-routing:
+    session: PangeaRouting
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/routing-service
+    health_check: "curl -sf http://localhost:8120 -o /dev/null"
+    color: cyan
+    critical: false
+    tags: [pangea, routing, backend]
+    port: 8120
+
+  # ─────────────────────────────
+  # PANGEA — superbase
+  # ─────────────────────────────
+
+  pangea-superbase:
+    session: PangeaSuperbase
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/superbase
+    health_check: "curl -sf http://localhost:5433 -o /dev/null"
+    color: green
+    critical: true
+    tags: [pangea, db, infra]
+    port: 5433
+
+  # ─────────────────────────────
+  # PANGEA — traffic
+  # ─────────────────────────────
+
+  pangea-traffic:
+    session: PangeaTraffic
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/traffic
+    health_check: "curl -sf http://localhost:8121 -o /dev/null"
+    color: yellow
+    critical: false
+    tags: [pangea, traffic, analytics]
+    port: 8121
+
+  # ─────────────────────────────
+  # PANGEA — user management
+  # ─────────────────────────────
+
+  pangea-user-management:
+    session: PangeaUserManagement
+    command: "pnpm run dev"
+    dir: /sec/root/FLTM/Pangea/user-management-service
+    health_check: "curl -sf http://localhost:8122 -o /dev/null"
+    color: red
+    critical: true
+    tags: [pangea, users, backend]
+    port: 8122
