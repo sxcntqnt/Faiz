@@ -523,3 +523,72 @@
 2026-06-03 02:34:17,886 [flam.orchestrator] INFO — [auth-service] ✓ started
 2026-06-03 02:47:14,650 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
 2026-06-03 02:47:16,666 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 02:50:07,104 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 02:50:09,122 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 02:53:12,235 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 02:53:14,255 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 02:57:37,462 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 02:57:39,480 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 02:58:09,134 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 02:58:11,160 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 03:06:59,803 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 03:07:01,819 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 03:07:33,253 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 03:07:35,270 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 03:13:51,422 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 03:13:53,454 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 09:39:36,263 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 09:39:38,281 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 09:51:06,510 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 09:51:08,538 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 09:53:29,658 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 09:53:31,673 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 09:53:54,204 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 09:53:56,219 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 11:03:11,511 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 11:03:13,534 [flam.orchestrator] ERROR — [auth-bootstrap] ✗ command exited immediately
+2026-06-03 11:04:00,201 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 11:04:02,221 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 11:05:37,037 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 11:05:39,071 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-03 11:06:05,896 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 11:06:07,913 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 11:24:39,501 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 11:24:41,521 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 12:39:52,614 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 12:39:54,646 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 12:48:29,910 [flam.orchestrator] INFO — [vault] starting → 'FlamVault'
+2026-06-03 12:48:31,923 [flam.orchestrator] INFO — [vault] ✓ started
+2026-06-03 12:50:14,164 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 12:50:16,186 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 13:00:30,061 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-03 13:00:32,075 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-03 13:02:09,686 [flam.orchestrator] INFO — [cf-root] stopping 'FlamTunnelRoot'
+2026-06-03 13:02:09,694 [flam.orchestrator] INFO — [cf-root] ✓ stopped
+2026-06-03 13:02:18,226 [flam.orchestrator] INFO — [root-web] stopping 'FlamRootWeb'
+2026-06-03 13:02:18,234 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-06-03 13:02:27,619 [flam.orchestrator] INFO — [root-web] starting → 'FlamRootWeb'
+2026-06-03 13:02:29,644 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-06-03 13:02:38,049 [flam.orchestrator] INFO — [cf-root] starting → 'FlamTunnelRoot'
+2026-06-03 13:02:40,063 [flam.orchestrator] INFO — [cf-root] ✓ started
+2026-06-03 13:10:44,643 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-03 13:10:46,655 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-03 13:13:13,106 [flam.watchdog] INFO — Watchdog started — interval=10s, restart_limit=5
+2026-06-03 14:07:04,780 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-03 14:07:10,588 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-03 14:07:12,599 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-03 15:01:20,750 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-03 15:01:22,778 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-03 15:02:01,575 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 15:02:03,594 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-03 15:32:11,123 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-03 15:32:13,146 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-03 15:34:54,916 [flam.orchestrator] INFO — [cf-auth] starting → 'FlamTunnelAuth'
+2026-06-03 15:34:56,937 [flam.orchestrator] INFO — [cf-auth] ✓ started
+2026-06-03 15:50:30,049 [flam.orchestrator] INFO — [cf-auth] stopping 'FlamTunnelAuth'
+2026-06-03 15:50:30,056 [flam.orchestrator] INFO — [cf-auth] ✓ stopped
+2026-06-03 15:50:36,143 [flam.orchestrator] INFO — [cf-auth] starting → 'FlamTunnelAuth'
+2026-06-03 15:50:38,157 [flam.orchestrator] INFO — [cf-auth] ✓ started
+2026-06-03 23:06:06,377 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-03 23:06:23,027 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-03 23:06:25,040 [flam.orchestrator] INFO — [nginx] ✓ started

@@ -53,7 +53,7 @@ services:
     session: FlamRootWeb
     command: "pnpm run prod-start"
     dir: /sec/root/FLTM/SHFTCCONK
-    health_check: "curl -sf http://localhost:5100 -o /dev/null"
+    health_check: "curl -sf http://localhost:4173 -o /dev/null"
     color: blue
     critical: true
     tags: [frontend]
@@ -81,7 +81,7 @@ services:
       ENV_FILE=/sec/root/FLTM/auth-service/scripts/prod.env
       bash ./scripts/vault_bootstrap.sh &&
       touch /tmp/auth_bootstrapped
-    dir: /sec/root/FLTM//sec/root/FLTM/auth-service/scripts
+    dir: /sec/root/FLTM/auth-service
     health_check: "test -f /tmp/auth_bootstrapped"
     color: white
     critical: true
@@ -95,13 +95,13 @@ services:
       set +a &&
       ./auth-service
     dir: /sec/root/FLTM/auth-service/bin
-    health_check: "curl -sf http://localhost:5500 -o /dev/null"
+    health_check: "curl -sf http://localhost:8980/health -o /dev/null"
     color: red
     critical: true
     tags: [backend, auth]
     port: 5500
     depends_on:
-      auth-bootstrap:
+      dgraph-zero:
         condition: process_healthy
       dgraph-alpha:
         condition: process_healthy
@@ -122,7 +122,7 @@ services:
 
   chat:
     session: FlamChat
-    command: "pnpm run dev"
+    command: "go run main.go --server=http"
     dir: /sec/root/FLTM/chat
     health_check: "curl -sf http://localhost:5200 -o /dev/null"
     color: cyan
@@ -342,21 +342,6 @@ services:
       dgraph-zero:
         condition: process_healthy
 
-  auth-bootstrap:
-    session: FlamAuthBootstrap
-    command: >
-      export VAULT_ADDR='http://localhost:8200' &&
-      export VAULT_TOKEN='root' &&
-      bash ./scripts/vault-bootstrap.sh > /tmp/bootstrap &&
-      touch /tmp/auth_bootstrapped
-    dir: /sec/root/FLTM/SHFTCCONK
-    health_check: "test -f /tmp/auth_bootstrapped"
-    color: white
-    critical: true
-    tags: [setup]
-    depends_on:
-      vault:
-        condition: process_healthy
 
 
   # ─────────────────────────────

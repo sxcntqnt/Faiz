@@ -63,7 +63,13 @@ def _load_env(root: Path) -> None:
             if not line or line.startswith("#") or "=" not in line:
                 continue
             key, _, val = line.partition("=")
-            os.environ.setdefault(key.strip(), val.strip())
+            key = key.strip()
+            val = val.strip()
+            # Strip surrounding single or double quotes so that
+            # VAULT_ADDR='http://...' resolves to http://... not 'http://...'
+            if len(val) >= 2 and val[0] == val[-1] and val[0] in ('"', "'"):
+                val = val[1:-1]
+            os.environ.setdefault(key, val)
 
 _load_env(FLAM_ROOT)
 
@@ -369,7 +375,6 @@ def cmd_panic(args, registry, **_):
 
     opened = 0
     for svc_name, svc in pool.items():
-        # When no explicit target: skip non-critical unless --all
         if not names and not svc.critical and not getattr(args, "all", False):
             continue
 
@@ -454,27 +459,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command", metavar="<command>")
 
-    # ── up / down / restart ───────────────────────────────────────────────────
     for cmd in ("up", "down", "restart"):
         p = sub.add_parser(cmd, help=f"{cmd.capitalize()} service(s) or group")
         p.add_argument("service", nargs="?", help="Service name, group, or omit for all")
 
-    # ── status / stat ─────────────────────────────────────────────────────────
     for alias in ("status", "stat"):
         p_s = sub.add_parser(alias, help="Status snapshot — service, group, or all")
         p_s.add_argument("service", nargs="?", help="Service name or group")
         p_s.add_argument("--json", action="store_true", help="Machine-readable output")
 
-    # ── dash ──────────────────────────────────────────────────────────────────
     p_dash = sub.add_parser("dash", help="Live dashboard — service, group, or all")
     p_dash.add_argument("service", nargs="?", help="Service name or group")
     p_dash.add_argument("--refresh", type=float, default=3.0, help="Refresh interval (s)")
 
-    # ── jump ──────────────────────────────────────────────────────────────────
     p_jump = sub.add_parser("jump", help="Fuzzy-navigate to a tmux session")
     p_jump.add_argument("name", help="Fuzzy service/session name or alias")
 
-    # ── save / restore / snapshot ─────────────────────────────────────────────
     sub.add_parser("save", help="Save workspace state to JSON")
 
     p_restore = sub.add_parser("restore", help="Restore from snapshot — service, group, or all")
@@ -483,20 +483,16 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("snapshot", help="Print last saved snapshot")
 
-    # ── watch ─────────────────────────────────────────────────────────────────
     p_watch = sub.add_parser("watch", help="Watchdog daemon — service, group, or all")
     p_watch.add_argument("service", nargs="?", help="Service name or group")
 
-    # ── panic ─────────────────────────────────────────────────────────────────
     p_panic = sub.add_parser("panic", help="Open log panes — service, group, or all critical")
     p_panic.add_argument("service", nargs="?", help="Service name or group")
     p_panic.add_argument("--all", action="store_true", help="Include non-critical services")
 
-    # ── doctor ────────────────────────────────────────────────────────────────
     p_doc = sub.add_parser("doctor", help="Health check — service, group, or all")
     p_doc.add_argument("service", nargs="?", help="Service name or group")
 
-    # ── list ──────────────────────────────────────────────────────────────────
     p_list = sub.add_parser("list", help="List services and groups")
     p_list.add_argument("service", nargs="?", help="Service name or group to filter")
 
