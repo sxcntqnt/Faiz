@@ -20,14 +20,14 @@ defaults:
 # ─────────────────────────────────────────────
 
 groups:
-  apps:       [root-web, auth-service, chat, maps, games, hypntyz]
-  crm:        [crm-frontend, crm-backend, crm-celery, crm-redis, cf-crm]
+  apps:       [root-web, auth-service, chat, maps, games, hypntyz, ingestion, broker]
+  gcdf:        [gcdf-frontend, gcdf-backend, gcdf-celery, gcdf-redis, cf-gcdf]
   marketing:  [n8n]
   auth-stack: [vault, dgraph-zero, dgraph-alpha, auth-bootstrap, auth-service]
-  gatebill:   [gatebill-frontend, gatebill-worker-1, gatebill-worker-2]
+  gatebil:   [gatebil-frontend, gatebil-backend, cf-gatebil]
   tunnels:    [cf-root, cf-auth, cf-chat, cf-maps, cf-games, cf-hypntyz,
-                cf-ingestion, cf-crm]
-  infra:      [nginx, vault, dgraph-zero, dgraph-alpha]
+               cf-ingestion, cf-gcdf, cf-gatebil]
+  infra:      [nginx, vault, dgraph-zero, dgraph-alpha, broker]
 
 services:
 
@@ -57,7 +57,7 @@ services:
     color: blue
     critical: true
     tags: [frontend]
-    port: 5100
+    port: 4173
 
   cf-root:
     session: FlamTunnelRoot
@@ -99,7 +99,7 @@ services:
     color: red
     critical: true
     tags: [backend, auth]
-    port: 5500
+    port: 8980
     depends_on:
       dgraph-zero:
         condition: process_healthy
@@ -122,13 +122,17 @@ services:
 
   chat:
     session: FlamChat
-    command: "go run main.go --server=http"
-    dir: /sec/root/FLTM/chat
-    health_check: "curl -sf http://localhost:5200 -o /dev/null"
+    command: >
+      set -a &&
+      source /sec/root/FLTM/Chapiana/.env &&
+      set +a &&
+      go run main.go --server=http
+    dir: /sec/root/FLTM/Chapiana
+    health_check: "curl -sf http://localhost:9200/health -o /dev/null"
     color: cyan
     critical: false
     tags: [app, realtime]
-    port: 5200
+    port: 9200
 
   cf-chat:
     session: FlamTunnelChat
@@ -146,13 +150,13 @@ services:
 
   maps:
     session: FlamMaps
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/maps
-    health_check: "curl -sf http://localhost:5174 -o /dev/null"
+    command: "/sec/root/FLTM/indazon/bin/python run_server.py"
+    dir: /sec/root/FLTM/HiMap
+    health_check: "curl -sf http://localhost:9910 -o /dev/null"
     color: cyan
     critical: false
     tags: [maps, frontend]
-    port: 5174
+    port: 9910
 
   cf-maps:
     session: FlamTunnelMaps
@@ -170,13 +174,13 @@ services:
 
   games:
     session: FlamGames
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/games
-    health_check: "curl -sf http://localhost:5300 -o /dev/null"
+    command: "caddy run --config /sec/root/Builder/magari-server/Caddyfile"
+    dir: /sec/root/FLTM/cars
+    health_check: "curl -sf http://localhost:9940 -o /dev/null"
     color: yellow
     critical: false
     tags: [games]
-    port: 5300
+    port: 9940
 
   cf-games:
     session: FlamTunnelGames
@@ -194,13 +198,13 @@ services:
 
   hypntyz:
     session: FlamHypntyz
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/hypntyz
-    health_check: "curl -sf http://localhost:5400 -o /dev/null"
+    command: "./bin/hypntyz"
+    dir: /sec/root/FLTM/hypntyz/
+    health_check: "curl -sf http://localhost:8901/health -o /dev/null"
     color: red
     critical: true
     tags: [ai, projection]
-    port: 5400
+    port: 8901
 
   cf-hypntyz:
     session: FlamTunnelHypntyz
@@ -218,16 +222,16 @@ services:
 
   ingestion:
     session: FlamIngestion
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/ingestion
-    health_check: "curl -sf http://localhost:5600 -o /dev/null"
+    command: "yes yes |bash S1RT3.sh"
+    dir: /sec/root/FLTM/Sirt3B3s1n
+    health_check: "curl -sf http://localhost:7070/health -o /dev/null"
     color: white
     critical: true
     tags: [backend, ingestion]
-    port: 5600
+    port: 7070
 
   cf-ingestion:
-    session: FlamTunnelIngestion
+    session: FlamTunnelIngestionControl
     command: >
       cloudflared tunnel run --token ${INGESTION_TUNNEL_TOKEN}
     dir: /
@@ -237,53 +241,118 @@ services:
     tags: [tunnel]
 
   # ─────────────────────────────
+  # INGESTION STACK
+  # Boot order: rmqtt --> redis --> clickhouse
+  # ─────────────────────────────
+
+  broker:
+    session: FlamBroker
+    command: |
+      ./bin/rmqttd -f ./etc/rmqtt.toml &
+      RMQTT_PID=$!
+      while kill -0 $RMQTT_PID 2>/dev/null; do
+        echo "$(date) rmqtt alive [pid $RMQTT_PID]"
+        sleep 60
+      done
+      echo "$(date) rmqtt exited"
+    dir: /sec/root/FLTM/rmqtt
+    health_check: "curl -sf http://127.0.0.1:6060/api/v1/health/check -o /dev/null"
+    color: yellow
+    critical: true
+    tags: [infra, security]
+
+  redis-cluster:
+    session: FlamRedisCluster
+    command: |
+      bash create-cluster.sh start &&
+      while redis-cli -p ${REDIS_PORT} ping >/dev/null 2>&1; do
+        echo "$(date) redis alive"
+        sleep 60
+      done
+    dir: /sec/root/FLTM/js_osr/redis-supp
+    health_check: "pgrep -fa redis | grep 3000"  
+    color: yellow
+    critical: true
+    tags: [infra, security]
+
+  clickhouse:
+    session: FlamClickhouse
+    command: |
+      systemctl start clickhouse-server
+      while ${CLICKHOUSE_TEST}; do
+        echo "$(date) clickhouse alive"
+        sleep 60
+      done
+    dir: /sec/root/FLTM
+    health_check: "pgrep -fa clickhouse"  # health_check was cut off in source — fill in
+    color: yellow
+    critical: true
+    tags: [infra, security]
+
+  # ─────────────────────────────
+  # RMQTT — Cloudflare Tunnel
+  # ─────────────────────────────
+
+  cf-broker:
+    session: FlamTunnelBroker
+    command: >
+      cloudflared tunnel run --token ${BROKER_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa RMQTT_TUNNEL_TOKEN"
+    color: yellow
+    critical: true
+    tags: [tunnel, rmqtt, mqtt, broker]
+    depends_on:
+      rmqtt:
+        condition: process_started
+
+  # ─────────────────────────────
   # CRM
   # ─────────────────────────────
 
-  crm-frontend:
+  gcdf-frontend:
     session: FlamCRMFrontend
-    command: "pnpm run dev"
-    dir: /sec/root/FLTM/BottleCRM/frontend
-    health_check: "curl -sf http://localhost:5173 -o /dev/null"
+    command: "pnpm run prod-start"
+    dir: /sec/root/FLTM/GrauCena/frontend
+    health_check: "curl -sf http://localhost:10420 -o /dev/null"
     color: blue
     critical: true
     tags: [crm, frontend]
-    port: 5173
+    port: 10420
 
-  crm-backend:
+  gcdf-backend:
     session: FlamCRMBackend
     command: >
-      bash -c "python manage.py migrate &&
-               python manage.py runserver 0.0.0.0:8000"
-    dir: /sec/root/FLTM/BottleCRM/backend
-    health_check: "curl -sf http://localhost:8000/swagger-ui/ -o /dev/null"
+      bash -c "uv run manage.py migrate &&
+               uv run manage.py runserver 0.0.0.0:10421"
+    dir: /sec/root/FLTM/GrauCena/backend
+    health_check: "curl -sf http://localhost:10421/swagger-ui/ -o /dev/null"
     color: green
     critical: true
     tags: [crm, backend, api]
-    port: 8000
+    port: 10421
 
-  crm-celery:
+  gcdf-celery:
     session: FlamCRMCelery
     command: >
-      bash -c "source venv/bin/activate &&
-               celery -A crm worker --loglevel=INFO"
-    dir: /sec/root/FLTM/BottleCRM/backend
-    health_check: "pgrep -fa 'celery -A crm'"
+      bash -c "uv run celery -A crm worker --loglevel=INFO"
+    dir: /sec/root/FLTM/GrauCena/backend
+    health_check: "pgrep -fa celery | grep uv"
     color: red
     critical: true
     tags: [crm, worker, async]
 
-  crm-redis:
+  gcdf-redis:
     session: FlamCRMRedis
-    command: "redis-server"
-    dir: /
-    health_check: "redis-cli ping"
+    command: "redis-server redis.conf"
+    dir: /sec/root/FLTM/reverseP/Wozniak
+    health_check: "pgrep -fa redis | grep 6379"
     color: yellow
     critical: true
     tags: [crm, infra, redis]
     port: 6379
 
-  cf-crm:
+  cf-gcdf:
     session: FlamTunnelCRM
     command: >
       cloudflared tunnel run --token ${CRM_TUNNEL_TOKEN}
@@ -342,46 +411,171 @@ services:
       dgraph-zero:
         condition: process_healthy
 
-
-
   # ─────────────────────────────
-  # GATEBILL — KYC Engine
-  # Boot order: auth-service → gatebill-frontend → workers
+  # Gatebil — KYC Engine
+  # Boot order: auth-service → gatebil-frontend → workers
   # ─────────────────────────────
 
-  gatebill-frontend:
-    session: FlamGatebillFrontend
-    command: "go run ./cmd/server/main.go"
-    dir: /sec/root/FLTM/SHFTCCONK/gatebill
-    health_check: "curl -sf http://localhost:9900/health -o /dev/null"
+  gatebil-frontend:
+    session: FlamGatebilFrontend
+    command: >
+      set -a &&
+      source /sec/root/FLTM/Gatebil/frontend/.prod.env &&
+      set +a &&
+      exec make run
+    dir: /sec/root/FLTM/Gatebil/frontend
+    health_check: "curl -sf http://localhost:9930/healthz -o /dev/null"
     color: green
     critical: true
-    tags: [gatebill, kyc, frontend]
+    tags: [gatebil, kyc, frontend]
     port: 9900
     depends_on:
-      auth-service:
+      gatebil-backend:
         condition: process_healthy
 
-  gatebill-worker-1:
-    session: FlamGatebillWorker1
-    command: "python3 src/workers/kyc_processor.py"
-    dir: /sec/root/FLTM/SHFTCCONK/gatebill
-    health_check: "pgrep -fa kyc_processor.py"
+  gatebil-backend:
+    session: FlamGatebillBackend
+    command: >
+      set -a &&
+      source /sec/root/FLTM/Gatebil/nosos/bin/activate 
+      set +a &&
+      python3 main.py
+    dir: /sec/root/FLTM/Gatebil/backend
+    health_check: "curl -sf http://localhost:5000/internal/v1/health -o /dev/null"
     color: yellow
     critical: true
-    tags: [gatebill, kyc, worker]
+    tags: [gatebil, kyc, worker]
+    port: 5000
+    
+
+  cf-gatebil:
+    session: FlamTunnelGatebil
+    command: >
+      cloudflared tunnel run --token ${GATEBIL_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa SH3K3M_TUNNEL_TOKEN"
+    color: cyan
+    critical: true
+    tags: [tunnel, gatebil]
     depends_on:
-      gatebill-frontend:
+     gatebil-frontend:
+       condition: process_started
+
+  
+  # ─────────────────────────────
+  # SH3K3M — ETA Engine
+  # Boot order: sh3k3m
+  # ─────────────────────────────
+
+  sh3k3m:
+    session: FlamSh3k3m
+    command: "./sh3k3m"
+    dir: /sec/root/FLTM/eta-service/sh3k3m
+    health_check: "curl -sf http://localhost:8080/health -o /dev/null"
+    color: cyan
+    critical: true
+    tags: [sh3k3m, eta, routing]
+    port: 8080
+
+  # ─────────────────────────────
+  # SH3K3M — Cloudflare Tunnel
+  # ─────────────────────────────
+
+  cf-sh3k3m:
+    session: FlamTunnelSh3k3m
+    command: >
+      cloudflared tunnel run --token ${SH3K3M_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa SH3K3M_TUNNEL_TOKEN"
+    color: cyan
+    critical: true
+    tags: [tunnel, sh3k3m]
+    depends_on:
+      sh3k3m:
         condition: process_started
 
-  gatebill-worker-2:
-    session: FlamGatebillWorker2
-    command: "python3 src/workers/document_verifier.py"
-    dir: /sec/root/FLTM/SHFTCCONK/gatebill
-    health_check: "pgrep -fa document_verifier.py"
-    color: magenta
-    critical: false
-    tags: [gatebill, kyc, worker]
+  # ─────────────────────────────
+  # GUELMIMASAFI — MQTT Engine
+  # Boot order: scylladb → guelmimasafi
+  # ─────────────────────────────
+  scylladb:
+    session: FlamScyllaDB
+
+    command: |-
+      while ${SCYLLA_TEST}; do
+        echo "$(date) SCYLLA alive"
+        sleep 60
+      done
+
+    health_check: |-
+      tailscale status | awk '
+      BEGIN {
+        nodes["scylla-node1"] = 0
+        nodes["scylla-node2"] = 0
+      }
+
+      {
+        node = $2
+
+        if (node == "scylla-node1" || node == "scylla-node2") {
+          nodes[node] = 1
+
+          if ($0 ~ /offline/) {
+            print "FAIL " node " offline"
+            state[node] = 1
+          } else {
+            print "OK " node " online"
+            state[node] = 0
+          }
+        }
+      }
+
+      END {
+        for (n in nodes) {
+          if (nodes[n] == 0) {
+            print "MISSING " n " not found"
+            exit 2
+          }
+        }
+
+        for (n in state) {
+          if (state[n] == 1) exit 1
+        }
+
+        exit 0
+      }
+      '
+
+    color: red
+    critical: true
+    tags: [database, scylla, tailscale, cluster]
+    port: 9042
+
+  guelmimasafi:
+    session: FlamGuelmimAsafi
+    command: "_build/default/rel/himap_hann/bin/himap_hann foreground"
+    dir: /sec/root/FLTM/GuelminAsafi
+    health_check: "curl -sf http://localhost:9950/health -o /dev/null"
+    color: blue
+    critical: true
+    tags: [guelmimasafi, mqtt, erlang]
     depends_on:
-      gatebill-frontend:
+      scylladb:
+        condition: process_healthy
+
+  # ─────────────────────────────
+  # GUELMIMASAFI — Cloudflare Tunnel
+  # ─────────────────────────────
+
+  cf-guelmimasafi:
+    session: FlamTunnelGuelmimAsafi
+    command: >
+      cloudflared tunnel run --token ${GUELMIMASAFI_TUNNEL_TOKEN}
+    dir: /
+    health_check: "pgrep -fa GUELMIMASAFI_TUNNEL_TOKEN"
+    color: blue
+    critical: true
+    tags: [tunnel, guelmimasafi]
+    depends_on:
+      guelmimasafi:
         condition: process_started
