@@ -265,6 +265,8 @@ services:
     session: FlamRedisCluster
     command: |
       bash create-cluster.sh start &&
+      sleep 5 &&
+      bash create-cluster.sh create -f &&
       while redis-cli -p ${REDIS_PORT} ping >/dev/null 2>&1; do
         echo "$(date) redis alive"
         sleep 60
@@ -469,8 +471,12 @@ services:
 
   sh3k3m:
     session: FlamSh3k3m
-    command: "./sh3k3m"
-    dir: /sec/root/FLTM/eta-service/sh3k3m
+    command: >
+      set -a &&
+      source /sec/root/FLTM/sh3k3m/.prod.env &&
+      set +a &&
+      bash start.sh bootstrap
+    dir: /sec/root/FLTM/sh3k3m
     health_check: "curl -sf http://localhost:8080/health -o /dev/null"
     color: cyan
     critical: true

@@ -592,3 +592,264 @@
 2026-06-03 23:06:06,377 [flam.orchestrator] INFO — [nginx] already stopped
 2026-06-03 23:06:23,027 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
 2026-06-03 23:06:25,040 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-04 00:08:12,186 [flam.orchestrator] INFO — [chat] starting → 'FlamChat'
+2026-06-04 00:08:14,205 [flam.orchestrator] ERROR — [chat] ✗ command exited immediately
+2026-06-04 00:12:55,739 [flam.orchestrator] INFO — [chat] starting → 'FlamChat'
+2026-06-04 00:12:57,751 [flam.orchestrator] INFO — [chat] ✓ started
+2026-06-04 00:18:03,511 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-04 00:18:09,568 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-04 00:18:11,579 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-04 00:24:44,785 [flam.orchestrator] INFO — [chat] stopping 'FlamChat'
+2026-06-04 00:24:44,790 [flam.orchestrator] INFO — [chat] ✓ stopped
+2026-06-04 00:30:54,482 [flam.orchestrator] INFO — [chat] starting → 'FlamChat'
+2026-06-04 00:30:56,501 [flam.orchestrator] ERROR — [chat] ✗ command exited immediately
+2026-06-04 00:31:47,972 [flam.orchestrator] INFO — [chat] starting → 'FlamChat'
+2026-06-04 00:31:49,987 [flam.orchestrator] INFO — [chat] ✓ started
+2026-06-04 00:32:15,471 [flam.orchestrator] INFO — [cf-chat] starting → 'FlamTunnelChat'
+2026-06-04 00:32:17,484 [flam.orchestrator] INFO — [cf-chat] ✓ started
+2026-06-04 00:58:38,870 [flam.orchestrator] INFO — [maps] starting → 'FlamMaps'
+2026-06-04 00:58:40,907 [flam.orchestrator] INFO — [maps] ✓ started
+2026-06-04 01:00:37,158 [flam.orchestrator] INFO — [maps] already stopped
+2026-06-04 01:00:43,513 [flam.orchestrator] INFO — [maps] starting → 'FlamMaps'
+2026-06-04 01:00:45,543 [flam.orchestrator] INFO — [maps] ✓ started
+2026-06-04 01:36:06,762 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-04 01:36:17,421 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-04 01:36:19,444 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-04 01:39:19,276 [flam.orchestrator] INFO — [cf-maps] starting → 'FlamTunnelMaps'
+2026-06-04 01:39:21,289 [flam.orchestrator] INFO — [cf-maps] ✓ started
+2026-06-04 01:49:12,011 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-04 01:49:22,716 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-04 01:49:24,733 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 05:37:18,145 [flam.orchestrator] INFO — [root-web] stopping 'FlamRootWeb'
+2026-06-05 05:37:18,150 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-06-05 05:39:31,716 [flam.orchestrator] INFO — [root-web] starting → 'FlamRootWeb'
+2026-06-05 05:39:33,741 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-06-05 05:55:54,013 [flam.orchestrator] INFO — [root-web] stopping 'FlamRootWeb'
+2026-06-05 05:55:54,018 [flam.orchestrator] INFO — [root-web] ✓ stopped
+2026-06-05 06:08:22,717 [flam.orchestrator] INFO — [root-web] starting → 'FlamRootWeb'
+2026-06-05 06:08:24,731 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-06-05 06:50:42,244 [flam.orchestrator] INFO — [games] starting → 'FlamGames'
+2026-06-05 06:50:44,256 [flam.orchestrator] INFO — [games] ✓ started
+2026-06-05 06:51:40,359 [flam.orchestrator] INFO — [cf-games] starting → 'FlamTunnelGames'
+2026-06-05 06:51:42,372 [flam.orchestrator] INFO — [cf-games] ✓ started
+2026-06-05 07:01:34,422 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-05 07:01:43,651 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-05 07:01:45,664 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 07:05:38,221 [flam.orchestrator] INFO — [cf-games] starting → 'FlamTunnelGames'
+2026-06-05 07:05:40,244 [flam.orchestrator] INFO — [cf-games] ✓ started
+2026-06-05 07:08:06,038 [flam.orchestrator] INFO — [cf-games] starting → 'FlamTunnelGames'
+2026-06-05 07:08:08,048 [flam.orchestrator] INFO — [cf-games] ✓ started
+2026-06-05 07:12:03,805 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-05 07:12:10,990 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-05 07:12:13,002 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 07:18:12,758 [flam.orchestrator] INFO — [hypntyz] starting → 'FlamHypntyz'
+2026-06-05 07:18:14,771 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-06-05 07:26:14,884 [flam.orchestrator] INFO — [cf-hypntyz] starting → 'FlamTunnelHypntyz'
+2026-06-05 07:26:16,900 [flam.orchestrator] INFO — [cf-hypntyz] ✓ started
+2026-06-05 07:26:50,968 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-05 07:26:51,059 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-05 07:26:53,073 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 11:06:40,266 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-05 11:06:40,357 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-05 11:06:42,368 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 11:07:12,422 [flam.orchestrator] INFO — [cf-ingestion] starting → 'FlamTunnelIngestion'
+2026-06-05 11:07:14,437 [flam.orchestrator] INFO — [cf-ingestion] ✓ started
+2026-06-05 14:17:39,219 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-05 14:17:39,307 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-05 14:17:41,317 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-05 14:20:35,253 [flam.orchestrator] INFO — [ingestion] starting → 'FlamIngestion'
+2026-06-05 14:20:37,271 [flam.orchestrator] INFO — [ingestion] ✓ started
+2026-06-05 19:25:02,960 [flam.orchestrator] INFO — [cf-ingestion] stopping 'FlamTunnelIngestion'
+2026-06-05 19:25:02,965 [flam.orchestrator] INFO — [cf-ingestion] ✓ stopped
+2026-06-05 19:26:00,479 [flam.orchestrator] INFO — [ingestion] stopping 'FlamIngestion'
+2026-06-05 19:26:00,485 [flam.orchestrator] INFO — [ingestion] ✓ stopped
+2026-06-06 21:08:52,081 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-06 21:08:54,098 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-06 21:15:06,001 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-06 21:15:08,021 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-06 21:19:45,259 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-06 21:19:47,278 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-06 21:25:43,690 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-06 21:25:45,702 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-06 22:40:50,766 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 22:40:52,785 [flam.orchestrator] ERROR — [redis-cluster] ✗ command exited immediately
+2026-06-06 22:42:02,165 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 22:42:04,183 [flam.orchestrator] ERROR — [redis-cluster] ✗ command exited immediately
+2026-06-06 22:48:25,964 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 22:48:27,980 [flam.orchestrator] ERROR — [redis-cluster] ✗ command exited immediately
+2026-06-06 22:51:58,382 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 22:52:00,401 [flam.orchestrator] ERROR — [redis-cluster] ✗ command exited immediately
+2026-06-06 22:54:45,714 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 22:54:47,744 [flam.orchestrator] ERROR — [redis-cluster] ✗ command exited immediately
+2026-06-06 23:22:10,019 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 23:22:12,044 [flam.orchestrator] INFO — [redis-cluster] ✓ started
+2026-06-06 23:24:17,880 [flam.orchestrator] INFO — [redis-cluster] already running in FlamRedisCluster
+2026-06-06 23:31:31,516 [flam.orchestrator] INFO — [redis-cluster] stopping 'FlamRedisCluster'
+2026-06-06 23:31:31,522 [flam.orchestrator] INFO — [redis-cluster] ✓ stopped
+2026-06-06 23:31:40,650 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 23:31:42,663 [flam.orchestrator] INFO — [redis-cluster] ✓ started
+2026-06-06 23:39:44,819 [flam.orchestrator] INFO — [redis-cluster] stopping 'FlamRedisCluster'
+2026-06-06 23:39:44,825 [flam.orchestrator] INFO — [redis-cluster] ✓ stopped
+2026-06-06 23:39:54,079 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-06 23:39:56,093 [flam.orchestrator] INFO — [redis-cluster] ✓ started
+2026-06-06 23:43:45,438 [flam.orchestrator] INFO — [ingestion] starting → 'FlamIngestion'
+2026-06-06 23:43:47,456 [flam.orchestrator] INFO — [ingestion] ✓ started
+2026-06-07 00:05:20,775 [flam.orchestrator] INFO — [ingestion] stopping 'FlamIngestion'
+2026-06-07 00:05:20,781 [flam.orchestrator] INFO — [ingestion] ✓ stopped
+2026-06-07 00:05:59,372 [flam.orchestrator] INFO — [clickhouse] starting → 'FlamClickhouse'
+2026-06-07 00:06:01,391 [flam.orchestrator] ERROR — [clickhouse] ✗ command exited immediately
+2026-06-07 00:07:07,414 [flam.orchestrator] INFO — [clickhouse] starting → 'FlamClickhouse'
+2026-06-07 00:07:09,426 [flam.orchestrator] INFO — [clickhouse] ✓ started
+2026-06-07 00:07:36,094 [flam.orchestrator] INFO — [ingestion] starting → 'FlamIngestion'
+2026-06-07 00:07:38,115 [flam.orchestrator] INFO — [ingestion] ✓ started
+2026-06-07 00:55:59,450 [flam.orchestrator] INFO — [gcdf-celery] starting → 'FlamCRMCelery'
+2026-06-07 00:56:01,463 [flam.orchestrator] INFO — [gcdf-celery] ✓ started
+2026-06-07 00:56:48,503 [flam.orchestrator] INFO — [gcdf-celery] stopping 'FlamCRMCelery'
+2026-06-07 00:56:48,509 [flam.orchestrator] INFO — [gcdf-celery] ✓ stopped
+2026-06-07 01:24:18,617 [flam.orchestrator] INFO — [gcdf-frontend] starting → 'FlamCRMFrontend'
+2026-06-07 01:24:20,633 [flam.orchestrator] INFO — [gcdf-frontend] ✓ started
+2026-06-07 01:39:26,370 [flam.orchestrator] INFO — [gcdf-celery] starting → 'FlamCRMCelery'
+2026-06-07 01:39:28,382 [flam.orchestrator] INFO — [gcdf-celery] ✓ started
+2026-06-07 01:57:40,808 [flam.orchestrator] INFO — [gcdf-redis] starting → 'FlamCRMRedis'
+2026-06-07 01:57:42,821 [flam.orchestrator] INFO — [gcdf-redis] ✓ started
+2026-06-07 01:58:57,213 [flam.orchestrator] INFO — [gcdf-celery] starting → 'FlamCRMCelery'
+2026-06-07 01:58:59,231 [flam.orchestrator] INFO — [gcdf-celery] ✓ started
+2026-06-07 02:00:55,486 [flam.orchestrator] INFO — [gcdf-celery] stopping 'FlamCRMCelery'
+2026-06-07 02:00:55,492 [flam.orchestrator] INFO — [gcdf-celery] ✓ stopped
+2026-06-07 02:03:39,309 [flam.orchestrator] INFO — [gcdf-celery] starting → 'FlamCRMCelery'
+2026-06-07 02:03:41,323 [flam.orchestrator] INFO — [gcdf-celery] ✓ started
+2026-06-07 03:43:56,193 [flam.watchdog] INFO — Watchdog started — interval=10s, restart_limit=5
+2026-06-07 03:44:17,494 [flam.watchdog] INFO — Watchdog started — interval=10s, restart_limit=5
+2026-06-07 20:19:24,484 [flam.orchestrator] INFO — [cf-ingestion] starting → 'FlamTunnelIngestionControl'
+2026-06-07 20:19:26,496 [flam.orchestrator] INFO — [cf-ingestion] ✓ started
+2026-06-07 20:42:26,646 [flam.orchestrator] INFO — [cf-gcdf] starting → 'FlamTunnelCRM'
+2026-06-07 20:42:28,657 [flam.orchestrator] INFO — [cf-gcdf] ✓ started
+2026-06-07 21:42:28,101 [flam.orchestrator] INFO — [gcdf-backend] starting → 'FlamCRMBackend'
+2026-06-07 21:42:30,117 [flam.orchestrator] INFO — [gcdf-backend] ✓ started
+2026-06-07 21:44:28,076 [flam.orchestrator] INFO — [gcdf-backend] starting → 'FlamCRMBackend'
+2026-06-07 21:44:30,091 [flam.orchestrator] INFO — [gcdf-backend] ✓ started
+2026-06-07 21:57:53,010 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-07 21:57:57,669 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-07 21:57:59,683 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-07 21:58:13,111 [flam.orchestrator] INFO — [cf-gcdf] stopping 'FlamTunnelCRM'
+2026-06-07 21:58:13,116 [flam.orchestrator] INFO — [cf-gcdf] ✓ stopped
+2026-06-07 21:58:20,891 [flam.orchestrator] INFO — [cf-gcdf] starting → 'FlamTunnelCRM'
+2026-06-07 21:58:22,903 [flam.orchestrator] INFO — [cf-gcdf] ✓ started
+2026-06-07 22:04:55,147 [flam.orchestrator] INFO — [cf-gcdf] stopping 'FlamTunnelCRM'
+2026-06-07 22:04:55,154 [flam.orchestrator] INFO — [cf-gcdf] ✓ stopped
+2026-06-07 22:06:05,417 [flam.orchestrator] INFO — [cf-gcdf] starting → 'FlamTunnelCRM'
+2026-06-07 22:06:07,436 [flam.orchestrator] INFO — [cf-gcdf] ✓ started
+2026-06-07 22:13:37,590 [flam.orchestrator] INFO — [cf-gcdf] starting → 'FlamTunnelCRM'
+2026-06-07 22:13:39,605 [flam.orchestrator] INFO — [cf-gcdf] ✓ started
+2026-06-07 22:30:24,608 [flam.orchestrator] INFO — [cf-broker] starting → 'FlamTunnelBroker'
+2026-06-07 22:30:26,624 [flam.orchestrator] INFO — [cf-broker] ✓ started
+2026-06-07 23:00:32,611 [flam.orchestrator] INFO — [broker] stopping 'FlamRmqtt'
+2026-06-07 23:00:32,616 [flam.orchestrator] INFO — [broker] ✓ stopped
+2026-06-07 23:13:37,344 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-07 23:13:39,364 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-07 23:16:50,687 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-07 23:16:52,707 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-07 23:25:50,480 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-07 23:25:52,496 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-08 00:31:16,269 [flam.orchestrator] INFO — [broker] stopping 'FlamRmqtt'
+2026-06-08 00:31:16,276 [flam.orchestrator] INFO — [broker] ✓ stopped
+2026-06-08 00:31:23,019 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-08 00:31:25,044 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-08 00:33:09,978 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-08 00:33:11,999 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-08 00:33:40,776 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-08 00:33:42,796 [flam.orchestrator] ERROR — [broker] ✗ command exited immediately
+2026-06-08 00:40:33,158 [flam.orchestrator] INFO — [broker] already stopped
+2026-06-08 00:40:38,983 [flam.orchestrator] INFO — [broker] starting → 'FlamRmqtt'
+2026-06-08 00:40:40,999 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-08 00:41:43,487 [flam.orchestrator] INFO — [broker] already stopped
+2026-06-08 00:41:48,654 [flam.orchestrator] INFO — [broker] starting → 'FlamBroker'
+2026-06-08 00:41:50,669 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-08 01:06:23,808 [flam.orchestrator] INFO — [broker] starting → 'FlamBroker'
+2026-06-08 01:06:25,824 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-08 01:08:08,637 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-08 01:08:13,493 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-08 01:08:15,508 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-08 01:09:35,247 [flam.orchestrator] INFO — [broker] starting → 'FlamBroker'
+2026-06-08 01:09:37,260 [flam.orchestrator] INFO — [broker] ✓ started
+2026-06-11 00:12:51,192 [flam.orchestrator] INFO — [hypntyz] stopping 'FlamHypntyz'
+2026-06-11 00:12:51,197 [flam.orchestrator] INFO — [hypntyz] ✓ stopped
+2026-06-11 00:13:11,378 [flam.orchestrator] INFO — [hypntyz] starting → 'FlamHypntyz'
+2026-06-11 00:13:13,390 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-06-13 00:16:25,950 [flam.orchestrator] INFO — [gatebil-backend] starting → 'FlamGatebillBackend'
+2026-06-13 00:16:27,969 [flam.orchestrator] INFO — [gatebil-backend] ✓ started
+2026-06-13 00:24:01,709 [flam.orchestrator] INFO — [guelmimasafi] starting → 'FlamGuelmimAsafi'
+2026-06-13 00:24:03,733 [flam.orchestrator] ERROR — [guelmimasafi] ✗ command exited immediately
+2026-06-13 16:36:07,719 [flam.orchestrator] INFO — [hypntyz] starting → 'FlamHypntyz'
+2026-06-13 16:36:09,735 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-06-15 00:26:21,162 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:26:23,189 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:28:26,090 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:28:28,119 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:29:14,461 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:29:16,482 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:30:41,611 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:30:43,631 [flam.orchestrator] INFO — [gatebil-frontend] ✓ started
+2026-06-15 00:52:44,058 [flam.orchestrator] INFO — [gatebil-frontend] stopping 'FlamGatebilFrontend'
+2026-06-15 00:52:44,065 [flam.orchestrator] INFO — [gatebil-frontend] ✓ stopped
+2026-06-15 00:52:50,953 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:52:52,986 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:53:14,936 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:53:16,966 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:55:20,370 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:55:22,397 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 00:58:59,394 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 00:59:01,420 [flam.orchestrator] ERROR — [gatebil-frontend] ✗ command exited immediately
+2026-06-15 01:13:29,637 [flam.orchestrator] INFO — [gatebil-frontend] starting → 'FlamGatebilFrontend'
+2026-06-15 01:13:31,654 [flam.orchestrator] INFO — [gatebil-frontend] ✓ started
+2026-06-15 01:19:32,509 [flam.orchestrator] INFO — [cf-gatebil] starting → 'FlamTunnelGatebil'
+2026-06-15 01:19:34,529 [flam.orchestrator] ERROR — [cf-gatebil] ✗ command exited immediately
+2026-06-15 01:21:07,683 [flam.orchestrator] INFO — [cf-gatebil] starting → 'FlamTunnelGatebil'
+2026-06-15 01:21:09,700 [flam.orchestrator] INFO — [cf-gatebil] ✓ started
+2026-06-16 02:12:28,169 [flam.orchestrator] INFO — [scylladb] starting → 'FlamScyllaDB'
+2026-06-16 02:12:30,197 [flam.orchestrator] ERROR — [scylladb] ✗ command exited immediately
+2026-06-16 02:14:09,123 [flam.orchestrator] INFO — [scylladb] starting → 'FlamScyllaDB'
+2026-06-16 02:14:11,142 [flam.orchestrator] INFO — [scylladb] ✓ started
+2026-06-16 02:14:43,293 [flam.orchestrator] INFO — [guelmimasafi] starting → 'FlamGuelmimAsafi'
+2026-06-16 02:14:45,319 [flam.orchestrator] ERROR — [guelmimasafi] ✗ command exited immediately
+2026-06-16 02:17:17,333 [flam.orchestrator] INFO — [guelmimasafi] starting → 'FlamGuelmimAsafi'
+2026-06-16 02:17:19,347 [flam.orchestrator] INFO — [guelmimasafi] ✓ started
+2026-06-16 02:23:52,615 [flam.orchestrator] INFO — [cf-guelmimasafi] starting → 'FlamTunnelGuelmimAsafi'
+2026-06-16 02:23:54,633 [flam.orchestrator] INFO — [cf-guelmimasafi] ✓ started
+2026-06-16 02:38:05,436 [flam.orchestrator] INFO — [nginx] already stopped
+2026-06-16 02:38:05,523 [flam.orchestrator] INFO — [nginx] starting → 'FlamNginx'
+2026-06-16 02:38:07,538 [flam.orchestrator] INFO — [nginx] ✓ started
+2026-06-18 12:03:02,473 [flam.orchestrator] INFO — [auth-service] stopping 'FlamAuth'
+2026-06-18 12:03:02,481 [flam.orchestrator] INFO — [auth-service] ✓ stopped
+2026-06-18 23:48:19,239 [flam.orchestrator] INFO — [vault] starting → 'FlamVault'
+2026-06-18 23:48:21,257 [flam.orchestrator] INFO — [vault] ✓ started
+2026-06-18 23:50:17,809 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-18 23:50:19,838 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-18 23:50:28,860 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-18 23:50:30,885 [flam.orchestrator] ERROR — [auth-service] ✗ command exited immediately
+2026-06-18 23:51:47,312 [flam.orchestrator] INFO — [vault] starting → 'FlamVault'
+2026-06-18 23:51:49,326 [flam.orchestrator] INFO — [vault] ✓ started
+2026-06-18 23:52:48,881 [flam.orchestrator] INFO — [auth-bootstrap] starting → 'FlamAuthBootstrap'
+2026-06-18 23:52:50,914 [flam.orchestrator] INFO — [auth-bootstrap] ✓ started
+2026-06-18 23:53:09,066 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-18 23:53:11,082 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-18 23:53:45,524 [flam.orchestrator] INFO — [auth-service] starting → 'FlamAuth'
+2026-06-18 23:53:47,540 [flam.orchestrator] INFO — [auth-service] ✓ started
+2026-06-19 00:50:38,709 [flam.orchestrator] INFO — [root-web] starting → 'FlamRootWeb'
+2026-06-19 00:50:40,726 [flam.orchestrator] INFO — [root-web] ✓ started
+2026-06-19 01:01:30,530 [flam.orchestrator] INFO — [hypntyz] stopping 'FlamHypntyz'
+2026-06-19 01:01:30,537 [flam.orchestrator] INFO — [hypntyz] ✓ stopped
+2026-06-19 01:11:51,516 [flam.orchestrator] INFO — [hypntyz] starting → 'FlamHypntyz'
+2026-06-19 01:11:53,530 [flam.orchestrator] INFO — [hypntyz] ✓ started
+2026-06-19 01:50:26,574 [flam.orchestrator] INFO — [sh3k3m] starting → 'FlamSh3k3m'
+2026-06-19 01:50:28,599 [flam.orchestrator] ERROR — [sh3k3m] ✗ command exited immediately
+2026-06-19 01:54:15,698 [flam.orchestrator] INFO — [sh3k3m] starting → 'FlamSh3k3m'
+2026-06-19 01:54:17,724 [flam.orchestrator] ERROR — [sh3k3m] ✗ command exited immediately
+2026-06-19 01:55:13,586 [flam.orchestrator] INFO — [sh3k3m] starting → 'FlamSh3k3m'
+2026-06-19 01:55:15,608 [flam.orchestrator] ERROR — [sh3k3m] ✗ command exited immediately
+2026-06-19 01:56:29,366 [flam.orchestrator] INFO — [sh3k3m] starting → 'FlamSh3k3m'
+2026-06-19 01:56:31,393 [flam.orchestrator] ERROR — [sh3k3m] ✗ command exited immediately
+2026-06-19 02:26:24,888 [flam.orchestrator] INFO — [redis-cluster] stopping 'FlamRedisCluster'
+2026-06-19 02:26:24,898 [flam.orchestrator] INFO — [redis-cluster] ✓ stopped
+2026-06-19 02:28:27,944 [flam.orchestrator] INFO — [redis-cluster] starting → 'FlamRedisCluster'
+2026-06-19 02:28:29,963 [flam.orchestrator] INFO — [redis-cluster] ✓ started
