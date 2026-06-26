@@ -10,30 +10,38 @@ FLAM_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FLAM_BIN="/usr/local/bin/flam"
 ROUTER_BIN="/usr/local/bin/tm"
 
+source "$FLAM_DIR/internals/flamos_deps.sh"
+ 
+
 echo ""
 echo "  ⚡ FlamOS Installer"
 echo "  ─────────────────────────────────────────────"
 echo "  Root: $FLAM_DIR"
 echo ""
+ 
+
+echo "  [1/5] Installing system dependencies..."
+install_flamos_dependencies
+echo "        ✓ dependencies installed"
 
 # ── Python deps ───────────────────────────────────────────────────────────────
-echo "  [1/4] Installing Python dependencies..."
+echo "  [2/5] Installing Python dependencies..."
 pip install pyyaml rich --break-system-packages -q
 echo "        ✓ pyyaml, rich"
 
 # ── Make scripts executable ───────────────────────────────────────────────────
-echo "  [2/4] Setting permissions..."
+echo "  [3/5] Setting permissions..."
 chmod +x "$FLAM_DIR/flam.py"
 chmod +x "$FLAM_DIR/core/router.sh"
 echo "        ✓ done"
 
 # ── Symlink flam CLI ──────────────────────────────────────────────────────────
-echo "  [3/4] Linking flam → $FLAM_BIN"
+echo "  [4/5] Linking flam → $FLAM_BIN"
 ln -sf "$FLAM_DIR/flam.py" "$FLAM_BIN"
 echo "        ✓ flam available globally"
 
 # ── Symlink tm shortcut (for router directly) ─────────────────────────────────
-echo "  [4/4] Linking tm → $ROUTER_BIN"
+echo "  [5/5] Linking tm → $ROUTER_BIN"
 cat > "$ROUTER_BIN" << EOF
 #!/usr/bin/env bash
 # tm — shortcut for: flam jump <name>

@@ -54,7 +54,6 @@ def capture_pane(session: str, lines: int = 30) -> str:
         "-S", f"-{lines}",  # last N lines
     ])
     return result.stdout.strip() if result.returncode == 0 else ""
-    _run(["tmux", "send-keys", "-t", session, keys, "Enter"])
 
 
 def list_sessions() -> list[str]:
@@ -84,6 +83,15 @@ def list_windows() -> list[dict]:
 def new_window(session: str, name: str) -> None:
     _run(["tmux", "new-window", "-t", session, "-n", name])
 
+def send_keys(target: str, keys: str) -> None:
+    _run([
+        "tmux",
+        "send-keys",
+        "-t",
+        target,
+        keys,
+        "Enter",
+    ])
 
 # ── Navigation ────────────────────────────────────────────────────────────────
 

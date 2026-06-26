@@ -42,11 +42,15 @@ class Service:
     port: int | None = None
     depends_on: dict[str, dict] = field(default_factory=dict)  # metadata, not yet enforced
 
+
     def resolved_command(self) -> str:
         return _resolve_env(self.command.strip())
 
     def resolved_dir(self) -> str:
         return _resolve_env(self.dir)
+
+    def resolved_health_check(self) -> str:
+        return _resolve_env(self.health_check.strip())
 
 
 @dataclass

@@ -18,8 +18,8 @@ from . import tmux
 log = logging.getLogger("flam.orchestrator")
 
 HEALTH_GATE_TIMEOUT = 30   # seconds to wait per service in ordered boot
-HEALTH_GATE_POLL    = 2    # seconds between health check attempts
-POST_LAUNCH_DELAY   = 2.0  # seconds to wait before confirming session is alive
+HEALTH_GATE_POLL    = 300    # seconds between health check attempts
+POST_LAUNCH_DELAY   = 20  # seconds to wait before confirming session is alive
 
 
 class Status(str, Enum):
@@ -286,13 +286,15 @@ class Orchestrator:
         self._state[svc.name].status = Status.STOPPED
         log.info(f"[{svc.name}] ✓ stopped")
 
+
     def _check_health(self, svc: Service) -> bool:
         result = subprocess.run(
-            svc.health_check,
+            svc.resolved_health_check(),
             shell=True,
             capture_output=True,
             timeout=5,
         )
+
         return result.returncode == 0
 
     def _wait_healthy(self, svc: Service, timeout: int = HEALTH_GATE_TIMEOUT) -> bool:
@@ -317,6 +319,9 @@ class Orchestrator:
 
         try:
             healthy = self._check_health(svc)
+            if not healthy:
+                time.sleep(0.3)
+                healthy = self._check_health(svc)
             if healthy:
                 state.status = Status.RUNNING
                 state.last_seen = time.time()

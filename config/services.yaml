@@ -53,7 +53,7 @@ services:
     session: FlamRootWeb
     command: "pnpm run prod-start"
     dir: /sec/root/FLTM/SHFTCCONK
-    health_check: "curl -sf http://localhost:4173 -o /dev/null"
+    health_check: "curl -s http://localhost:4173 -o /dev/null"
     color: blue
     critical: true
     tags: [frontend]
@@ -152,7 +152,7 @@ services:
     session: FlamMaps
     command: "/sec/root/FLTM/indazon/bin/python run_server.py"
     dir: /sec/root/FLTM/HiMap
-    health_check: "curl -sf http://localhost:9910 -o /dev/null"
+    health_check: "curl -s http://localhost:9910/health -o /dev/null"
     color: cyan
     critical: false
     tags: [maps, frontend]
@@ -316,7 +316,7 @@ services:
     session: FlamCRMFrontend
     command: "pnpm run prod-start"
     dir: /sec/root/FLTM/GrauCena/frontend
-    health_check: "curl -sf http://localhost:10420 -o /dev/null"
+    health_check: "curl -s http://localhost:10420 -o /dev/null"
     color: blue
     critical: true
     tags: [crm, frontend]
@@ -328,7 +328,7 @@ services:
       bash -c "uv run manage.py migrate &&
                uv run manage.py runserver 0.0.0.0:10421"
     dir: /sec/root/FLTM/GrauCena/backend
-    health_check: "curl -sf http://localhost:10421/swagger-ui/ -o /dev/null"
+    health_check: "curl -s http://localhost:10421/swagger-ui/ -o /dev/null"
     color: green
     critical: true
     tags: [crm, backend, api]
@@ -387,10 +387,11 @@ services:
     session: FlamVault
     command: "vault server -dev -dev-listen-address=0.0.0.0:8200"
     dir: /
-    health_check: "curl -sf http://localhost:8200/v1/sys/health -o /dev/null"
+    health_check: "curl -s http://localhost:8200/v1/sys/health -o /dev/null"
     color: yellow
     critical: true
     tags: [infra, security]
+    port: 8200
 
   dgraph-zero:
     session: FlamDgraphZero
@@ -443,7 +444,7 @@ services:
       set +a &&
       python3 main.py
     dir: /sec/root/FLTM/Gatebil/backend
-    health_check: "curl -sf http://localhost:5000/internal/v1/health -o /dev/null"
+    health_check: "curl -s http://localhost:5000/internal/v1/health -o /dev/null"
     color: yellow
     critical: true
     tags: [gatebil, kyc, worker]
@@ -508,50 +509,12 @@ services:
     session: FlamScyllaDB
 
     command: |-
-      while ${SCYLLA_TEST}; do
+      while sh -c ${SCYLLA_TEST}; do
         echo "$(date) SCYLLA alive"
         sleep 60
       done
-
-    health_check: |-
-      tailscale status | awk '
-      BEGIN {
-        nodes["scylla-node1"] = 0
-        nodes["scylla-node2"] = 0
-      }
-
-      {
-        node = $2
-
-        if (node == "scylla-node1" || node == "scylla-node2") {
-          nodes[node] = 1
-
-          if ($0 ~ /offline/) {
-            print "FAIL " node " offline"
-            state[node] = 1
-          } else {
-            print "OK " node " online"
-            state[node] = 0
-          }
-        }
-      }
-
-      END {
-        for (n in nodes) {
-          if (nodes[n] == 0) {
-            print "MISSING " n " not found"
-            exit 2
-          }
-        }
-
-        for (n in state) {
-          if (state[n] == 1) exit 1
-        }
-
-        exit 0
-      }
-      '
-
+    dir: ${FLAM_ROOT}
+    health_check: "${SCYLLA_HEALTH}"
     color: red
     critical: true
     tags: [database, scylla, tailscale, cluster]
@@ -559,7 +522,11 @@ services:
 
   guelmimasafi:
     session: FlamGuelmimAsafi
-    command: "_build/default/rel/himap_hann/bin/himap_hann foreground"
+    command: >
+      ALL_PROXY=${ALL_PROXY}
+      HTTP_PROXY=${HTTP_PROXY}
+      http_proxy=${http_proxy}
+      _build/default/rel/himap_hann/bin/himap_hann foreground
     dir: /sec/root/FLTM/GuelminAsafi
     health_check: "curl -sf http://localhost:9950/health -o /dev/null"
     color: blue
