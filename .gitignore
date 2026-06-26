@@ -1,3 +1,4 @@
 .env
 core/__pycache__
 logs/flam.log
+__pycache__/
